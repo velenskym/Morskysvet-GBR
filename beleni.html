@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920">
+  <title>Bělení korálů — ZOO Mořský svět</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #00A0E3;
+      --dark-blue: #56688F;
+      --deeper: #00325a;
+      --navy: #004469;
+      --orange: #EF7F1A;
+      --bg: #001a2e;
+      --text: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      transform-origin: top left;
+      transform: scale(0.7115);
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      position: fixed;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      user-select: none;
+      cursor: none;
+    }
+
+    /* ── HEADER ── */
+    header {
+      height: 130px;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 70px;
+      border-bottom: 2px solid rgba(0,160,227,0.25);
+      position: relative;
+      z-index: 10;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 32px; }
+    .logo img { height: 110px; width: auto; object-fit: contain; }
+
+    .back-btn {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 10px 22px;
+      font-size: 15px; font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+    .lang-switch {
+      display: flex; gap: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 5px;
+    }
+    .lang-btn {
+      padding: 10px 28px; border-radius: 7px;
+      font-size: 16px; font-weight: 600; letter-spacing: 0.06em;
+      cursor: pointer; border: none; transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .lang-btn.active { background: var(--blue); color: white; }
+    .lang-btn:not(.active) { background: transparent; color: rgba(255,255,255,0.4); }
+
+    /* ── LAYOUT ── */
+    .page {
+      display: grid;
+      grid-template-columns: 780px 1fr;
+      height: calc(1080px - 130px - 52px);
+    }
+
+    /* ── HERO FOTO ── */
+    .page-photo {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .page-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    .page-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, transparent 60%, var(--bg) 100%),
+        linear-gradient(to bottom, var(--bg) 0%, transparent 8%, transparent 88%, var(--bg) 100%);
+    }
+
+    /* ── OBSAH ── */
+    .page-content {
+      padding: 52px 80px 52px 56px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .page-content::-webkit-scrollbar { display: none; }
+
+    .article-tag {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 14px;
+    }
+
+    .article-title {
+      font-size: 72px; font-weight: 700; line-height: 1.0;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f0d0a0 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .article-perex {
+      font-size: 23px; font-weight: 300; line-height: 1.65;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 32px;
+      border-left: 3px solid var(--orange);
+      padding-left: 24px;
+    }
+
+    .section-title {
+      font-size: 18px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 14px; margin-top: 32px;
+    }
+
+    .body-text {
+      font-size: 21px; font-weight: 300;
+      line-height: 1.75; color: rgba(255,255,255,0.75);
+      margin-bottom: 20px;
+    }
+
+    /* foto blok */
+    .photo-block {
+      margin: 28px 0;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(239,127,26,0.2);
+    }
+    .photo-block img {
+      width: 100%; display: block;
+      object-fit: cover; max-height: 320px;
+    }
+    .photo-caption {
+      padding: 12px 18px;
+      font-size: 13px; font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      font-style: italic;
+      background: var(--deeper);
+    }
+
+    /* ── VIDEO BLOK ── */
+    .video-block {
+      margin: 32px 0;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(239,127,26,0.25);
+      position: relative;
+      background: #000;
+      aspect-ratio: 16/9;
+      max-height: 360px;
+    }
+    .video-block iframe {
+      width: 100%; height: 100%;
+      border: none; display: block;
+    }
+    /* placeholder pokud video ještě není */
+    .video-placeholder {
+      width: 100%; height: 100%;
+      min-height: 280px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px;
+      background: var(--deeper);
+      color: rgba(255,255,255,0.3);
+    }
+    .video-placeholder-icon {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .video-placeholder-text {
+      font-size: 15px; font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      height: 52px;
+      background: rgba(0,0,0,0.5);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 70px;
+    }
+    .footer-left { display: flex; align-items: center; gap: 14px; }
+    .footer-logo img { height: 30px; width: auto; opacity: 0.5; }
+    footer span {
+      font-size: 13px; color: rgba(255,255,255,0.3);
+      letter-spacing: 0.04em;
+    }
+    .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--orange); display: inline-block;
+      margin: 0 10px; vertical-align: middle;
+    }
+
+    .ripple {
+      position: fixed; width: 60px; height: 60px;
+      margin-left: -30px; margin-top: -30px;
+      border-radius: 50%; background: rgba(239,127,26,0.25);
+      pointer-events: none;
+      animation: rippleOut 0.5s ease-out forwards; z-index: 9999;
+    }
+    @keyframes rippleOut { to { transform: scale(3); opacity: 0; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="logo"><img src="images/logo.png" alt="ZOO Mořský svět"></div>
+      <button class="back-btn" onclick="goHome()">← <span data-cs="Zpět" data-en="Back">Zpět</span></button>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('cs')">CS</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="page-photo">
+      <img src="images/beleni_hero.jpg" alt="Bělení korálů">
+    </div>
+
+    <div class="page-content" id="scrollContent">
+
+      <div class="article-tag" data-cs="Klimatická změna · Ohrožení" data-en="Climate Change · Threat">Klimatická změna · Ohrožení</div>
+      <h1 class="article-title" data-cs="Bělení korálů" data-en="Coral Bleaching">Bělení korálů</h1>
+
+      <p class="article-perex"
+         data-cs="Drtivá většina korálových útesů na světě čelí fatálnímu ohrožení a riziku úplného zániku."
+         data-en="The vast majority of the world's coral reefs face fatal threats and the risk of complete destruction.">
+        Drtivá většina korálových útesů na světě čelí fatálnímu ohrožení a riziku úplného zániku.
+      </p>
+
+      <div class="section-title" data-cs="Co je bělení korálu" data-en="What Is Coral Bleaching">Co je bělení korálu</div>
+      <p class="body-text"
+         data-cs="Polyp korálu chytá mikroskopické organismy a organické částice z vodního sloupce. Navíc má schopnost fotosyntézy — dokáže získat energii ze slunečního záření podobně jako rostliny. Tuto schopnost mu propůjčují symbiotické sinice jménem zooxanthelly. Jsou to bakterie, které žijí ve tkáních korálů a pomáhají jim fotosyntézou."
+         data-en="A coral polyp catches microscopic organisms and organic particles from the water column. It also has the ability to photosynthesise — it can obtain energy from sunlight, much like plants. This ability is provided by symbiotic cyanobacteria called zooxanthellae. These are bacteria that live in coral tissues and help them through photosynthesis.">
+        Polyp korálu chytá mikroskopické organismy a organické částice z vodního sloupce. Navíc má schopnost fotosyntézy — dokáže získat energii ze slunečního záření podobně jako rostliny. Tuto schopnost mu propůjčují symbiotické sinice jménem zooxanthelly. Jsou to bakterie, které žijí ve tkáních korálů a pomáhají jim fotosyntézou.
+      </p>
+      <p class="body-text"
+         data-cs="Zooxanthelly jsou velmi citlivé na teplotu prostředí. Pokud teplota vody vystoupá nad určitou mez, tito symbionti zahynou. Korál pak navenek ztratí veškeré vybarvení — mluvíme o bělení korálu. Vybělený korál je oslabený a hyne nedlouho poté."
+         data-en="Zooxanthellae are very sensitive to environmental temperature. If the water temperature rises above a certain threshold, these symbionts die. The coral then loses all its colour externally — we call this coral bleaching. A bleached coral is weakened and dies shortly afterwards.">
+        Zooxanthelly jsou velmi citlivé na teplotu prostředí. Pokud teplota vody vystoupá nad určitou mez, tito symbionti zahynou. Korál pak navenek ztratí veškeré vybarvení — mluvíme o bělení korálu. Vybělený korál je oslabený a hyne nedlouho poté.
+      </p>
+
+      <div class="photo-block">
+        <img src="images/beleni_foto1.jpg" alt="Vybělený korál">
+        <div class="photo-caption" data-cs="Vybělený korál na Lizard Island, Velký bariérový útes (2016)" data-en="Bleached coral at Lizard Island, Great Barrier Reef (2016)">Vybělený korál na Lizard Island, Velký bariérový útes (2016)</div>
+      </div>
+
+      <div class="section-title" data-cs="Co se děje s útesem" data-en="What Happens to the Reef">Co se děje s útesem</div>
+      <p class="body-text"
+         data-cs="Útes mrtvých korálů zarůstá řasou a naprosto ztrácí svoji původní diverzitu. Společenství se hroutí a většina organismů hyne se svým útesem. Koráli jsou velmi citliví živočichové, kteří potřebují stabilitu prostředí. Po stovky tisíc let jim tropické oceány tuto stabilitu nabízely — dnes však dochází k rychlým změnám."
+         data-en="A reef of dead corals becomes overgrown with algae and completely loses its original diversity. The community collapses and most organisms die with their reef. Corals are very sensitive animals that need environmental stability. For hundreds of thousands of years, tropical oceans provided this stability — today, however, rapid changes are occurring.">
+        Útes mrtvých korálů zarůstá řasou a naprosto ztrácí svoji původní diverzitu. Společenství se hroutí a většina organismů hyne se svým útesem. Koráli jsou velmi citliví živočichové, kteří potřebují stabilitu prostředí. Po stovky tisíc let jim tropické oceány tuto stabilitu nabízely — dnes však dochází k rychlým změnám.
+      </p>
+
+      <!-- VIDEO BLOK -->
+      <div class="video-block">
+        <iframe
+          src="https://www.youtube.com/embed/DRsUWSgad2s?autoplay=1&mute=1&cc_load_policy=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&loop=1&playlist=DRsUWSgad2s"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="section-title" data-cs="Velký bariérový útes a bělení" data-en="Great Barrier Reef and Bleaching">Velký bariérový útes a bělení</div>
+      <p class="body-text"
+         data-cs="Velký bariérový útes zažil v posledních dekádách několik masových bělení. Nejničivější události nastaly v letech 1998, 2002, 2016, 2017 a 2020. Při bělení v roce 2016 postihlo silné bělení více než polovinu celého útesu. Vědci varují, že bez radikálního snížení emisí skleníkových plynů čelí útesy katastrofickému úbytku."
+         data-en="The Great Barrier Reef has experienced several mass bleaching events in recent decades. The most destructive events occurred in 1998, 2002, 2016, 2017, and 2020. The 2016 bleaching event severely affected more than half of the entire reef. Scientists warn that without drastic reductions in greenhouse gas emissions, reefs face catastrophic decline.">
+        Velký bariérový útes zažil v posledních dekádách několik masových bělení. Nejničivější události nastaly v letech 1998, 2002, 2016, 2017 a 2020. Při bělení v roce 2016 postihlo silné bělení více než polovinu celého útesu. Vědci varují, že bez radikálního snížení emisí skleníkových plynů čelí útesy katastrofickému úbytku.
+      </p>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">
+      <div class="footer-logo"><img src="images/logo.png" alt="ZOO Mořský svět"></div>
+      <span>ZOO Mořský svět<span class="dot"></span>www.morskysvet.cz</span>
+    </div>
+    <span>© 2025 ZOO Mořský svět</span>
+  </footer>
+
+  <script>
+    let currentLang = 'cs';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+      });
+      document.querySelectorAll('[data-cs]').forEach(el => {
+        el.textContent = el.dataset[lang] || el.dataset.cs;
+      });
+    }
+
+    function goHome() { window.location.href = 'index.html'; }
+
+    // drag scroll
+    const el = document.getElementById('scrollContent');
+    let isDown = false, startY, scrollTop;
+    el.addEventListener('mousedown', e => { isDown = true; startY = e.pageY - el.offsetTop; scrollTop = el.scrollTop; });
+    el.addEventListener('mouseleave', () => isDown = false);
+    el.addEventListener('mouseup', () => isDown = false);
+    el.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      el.scrollTop = scrollTop - (e.pageY - el.offsetTop - startY);
+    });
+    el.addEventListener('touchstart', e => { startY = e.touches[0].pageY; scrollTop = el.scrollTop; }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      el.scrollTop = scrollTop - (e.touches[0].pageY - startY);
+    }, { passive: true });
+
+    document.addEventListener('click', function(e) {
+      const r = document.createElement('div');
+      r.className = 'ripple';
+      r.style.left = e.clientX + 'px';
+      r.style.top = e.clientY + 'px';
+      document.body.appendChild(r);
+      setTimeout(() => r.remove(), 600);
+    });
+  </script>
+
+  <script>
+  (function() {
+    var TIMEOUT = 60 * 1000;
+    var HOME = "index.html";
+    var timer;
+    function reset() {
+      clearTimeout(timer);
+      timer = setTimeout(function() { window.location.href = HOME; }, TIMEOUT);
+    }
+    ["mousemove","mousedown","touchstart","touchmove","keydown","scroll","click"].forEach(function(e) {
+      document.addEventListener(e, reset, { passive: true });
+    });
+    reset();
+  })();
+  </script>
+
+</body>
+</html>

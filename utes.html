@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920">
+  <title>Velký bariérový útes — ZOO Mořský svět</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #00A0E3;
+      --dark-blue: #56688F;
+      --deeper: #00325a;
+      --navy: #004469;
+      --orange: #EF7F1A;
+      --bg: #001a2e;
+      --text: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      transform-origin: top left;
+      transform: scale(0.7115);
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      position: fixed;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      user-select: none;
+      cursor: none;
+    }
+
+    /* ── HEADER ── */
+    header {
+      height: 130px;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 70px;
+      border-bottom: 2px solid rgba(0,160,227,0.25);
+      position: relative;
+      z-index: 10;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 32px; }
+
+    .logo img { height: 110px; width: auto; object-fit: contain; }
+
+    .back-btn {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 10px 22px;
+      font-size: 15px; font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
+
+    .lang-switch {
+      display: flex; gap: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px; padding: 5px;
+    }
+    .lang-btn {
+      padding: 10px 28px; border-radius: 7px;
+      font-size: 16px; font-weight: 600; letter-spacing: 0.06em;
+      cursor: pointer; border: none; transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .lang-btn.active { background: var(--blue); color: white; }
+    .lang-btn:not(.active) { background: transparent; color: rgba(255,255,255,0.4); }
+
+    /* ── LAYOUT ── */
+    .page {
+      display: grid;
+      grid-template-columns: 780px 1fr;
+      height: calc(1080px - 130px - 52px);
+    }
+
+    /* ── HERO FOTO ── */
+    .page-photo {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .page-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    .page-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to right, transparent 60%, var(--bg) 100%),
+        linear-gradient(to bottom, var(--bg) 0%, transparent 8%, transparent 88%, var(--bg) 100%);
+    }
+
+    /* ── OBSAH ── */
+    .page-content {
+      padding: 52px 80px 52px 56px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .page-content::-webkit-scrollbar { display: none; }
+
+    .article-tag {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 14px;
+    }
+
+    .article-title {
+      font-size: 72px; font-weight: 700; line-height: 1.0;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #a8d8f0 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .article-perex {
+      font-size: 23px; font-weight: 300; line-height: 1.65;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 32px;
+      border-left: 3px solid var(--blue);
+      padding-left: 24px;
+    }
+
+    /* stats bar */
+    .stats-bar {
+      display: flex; gap: 0;
+      margin-bottom: 36px;
+      background: var(--deeper);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0,160,227,0.15);
+    }
+    .stat {
+      flex: 1; padding: 20px 28px;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-value {
+      font-size: 38px; font-weight: 700;
+      color: var(--blue); line-height: 1.0;
+    }
+    .stat-label {
+      font-size: 12px; font-weight: 500;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .section-title {
+      font-size: 18px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 14px; margin-top: 32px;
+    }
+
+    .body-text {
+      font-size: 21px; font-weight: 300;
+      line-height: 1.75; color: rgba(255,255,255,0.75);
+      margin-bottom: 20px;
+    }
+
+    /* foto blok */
+    .photo-block {
+      margin: 28px 0;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(0,160,227,0.12);
+    }
+    .photo-block img {
+      width: 100%; display: block;
+      object-fit: cover; max-height: 340px;
+    }
+    .photo-caption {
+      padding: 12px 18px;
+      font-size: 13px; font-weight: 400;
+      color: rgba(255,255,255,0.35);
+      font-style: italic;
+      background: var(--deeper);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      height: 52px;
+      background: rgba(0,0,0,0.5);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 70px;
+    }
+    .footer-left { display: flex; align-items: center; gap: 14px; }
+    .footer-logo img { height: 30px; width: auto; opacity: 0.5; }
+    footer span {
+      font-size: 13px; color: rgba(255,255,255,0.3);
+      letter-spacing: 0.04em;
+    }
+    .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--blue); display: inline-block;
+      margin: 0 10px; vertical-align: middle;
+    }
+
+    .ripple {
+      position: fixed; width: 60px; height: 60px;
+      margin-left: -30px; margin-top: -30px;
+      border-radius: 50%; background: rgba(0,160,227,0.25);
+      pointer-events: none;
+      animation: rippleOut 0.5s ease-out forwards; z-index: 9999;
+    }
+    @keyframes rippleOut { to { transform: scale(3); opacity: 0; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="logo"><img src="images/logo.png" alt="ZOO Mořský svět"></div>
+      <button class="back-btn" onclick="goHome()">← <span data-cs="Zpět" data-en="Back">Zpět</span></button>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('cs')">CS</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="page-photo">
+      <img src="images/utes_hero.jpg" alt="Velký bariérový útes">
+    </div>
+
+    <div class="page-content" id="scrollContent">
+
+      <div class="article-tag" data-cs="Austrálie · Korálové moře" data-en="Australia · Coral Sea">Austrálie · Korálové moře</div>
+      <h1 class="article-title" data-cs="Velký bariérový útes" data-en="Great Barrier Reef">Velký bariérový útes</h1>
+
+      <p class="article-perex" 
+         data-cs="Největší korálový útes na světě — a jediný živý útvar vytvořený jiným druhem než člověkem, který je viditelný z vesmíru."
+         data-en="The world's largest coral reef — the only living structure built by a species other than humans that is visible from space.">
+        Největší korálový útes na světě — a jediný živý útvar vytvořený jiným druhem než člověkem, který je viditelný z vesmíru.
+      </p>
+
+      <div class="stats-bar">
+        <div class="stat">
+          <div class="stat-value">2 300 km</div>
+          <div class="stat-label" data-cs="délka" data-en="length">délka</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">2 900+</div>
+          <div class="stat-label" data-cs="dílčích útesů" data-en="individual reefs">dílčích útesů</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">600 000</div>
+          <div class="stat-label" data-cs="let stáří" data-en="years old">let stáří</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">1 500+</div>
+          <div class="stat-label" data-cs="druhů ryb" data-en="fish species">druhů ryb</div>
+        </div>
+      </div>
+
+      <div class="section-title" data-cs="Jak vznikl" data-en="How It Formed">Jak vznikl</div>
+      <p class="body-text"
+         data-cs="Velký bariérový útes je typ útesu, který kopíruje pobřeží pevniny. Nevznikl najednou — je to řetězec tisíců menších útesů, které dohromady tvoří jeden z největších ekosystémů na Zemi. Bariérový útes od pevniny odděluje laguna."
+         data-en="The Great Barrier Reef is a barrier reef type that follows the coastline. It did not form all at once — it is a chain of thousands of smaller reefs that together form one of the largest ecosystems on Earth. A lagoon separates the barrier reef from the mainland.">
+        Velký bariérový útes je typ útesu, který kopíruje pobřeží pevniny. Nevznikl najednou — je to řetězec tisíců menších útesů, které dohromady tvoří jeden z největších ekosystémů na Zemi. Bariérový útes od pevniny odděluje laguna.
+      </p>
+
+      <p class="body-text"
+         data-cs="Když vědci provedli sondu celým útesem až na původní podloží, zjistili, že je přibližně 600 000 let starý. Přitom budují jej mikroskopičtí polypi útesotvorných korálů, kteří rostou jen několik centimetrů až desítek centimetrů za rok."
+         data-en="When scientists drilled a core sample through the entire reef to the original bedrock, they found it to be approximately 600,000 years old. Yet it is built by microscopic reef-building coral polyps that grow only a few centimetres to tens of centimetres per year.">
+        Když vědci provedli sondu celým útesem až na původní podloží, zjistili, že je přibližně 600 000 let starý. Přitom budují jej mikroskopičtí polypi útesotvorných korálů, kteří rostou jen několik centimetrů až desítek centimetrů za rok.
+      </p>
+
+      <div class="photo-block">
+        <img src="images/utes_foto1.jpg" alt="Korálový útes">
+        <div class="photo-caption" data-cs="Pohled na část Velkého bariérového útesu z ptačí perspektivy" data-en="Aerial view of a section of the Great Barrier Reef">Pohled na část Velkého bariérového útesu z ptačí perspektivy</div>
+      </div>
+
+      <div class="section-title" data-cs="Biodiverzita" data-en="Biodiversity">Biodiverzita</div>
+      <p class="body-text"
+         data-cs="Velký bariérový útes je domovem více než 1 500 druhů ryb, 4 000 druhů měkkýšů, 240 druhů ptáků a šesti ze sedmi mořských druhů želv. Hostí také velryby, delfíny a dugongy. Celý ekosystém zahrnuje přes 344 000 km² a je chráněn jako UNESCO Světové dědictví."
+         data-en="The Great Barrier Reef is home to more than 1,500 species of fish, 4,000 species of molluscs, 240 species of birds, and six of the seven marine turtle species. It also hosts whales, dolphins, and dugongs. The entire ecosystem covers over 344,000 km² and is protected as a UNESCO World Heritage Site.">
+        Velký bariérový útes je domovem více než 1 500 druhů ryb, 4 000 druhů měkkýšů, 240 druhů ptáků a šesti ze sedmi mořských druhů želv. Hostí také velryby, delfíny a dugongy. Celý ekosystém zahrnuje přes 344 000 km² a je chráněn jako UNESCO Světové dědictví.
+      </p>
+
+      <div class="section-title" data-cs="Útesotvorné korálie" data-en="Reef-Building Corals">Útesotvorné korálie</div>
+      <p class="body-text"
+         data-cs="Základním stavebním kamenem útesu jsou kolonie polypů, kteří dohromady vytvářejí pevnou schránku z uhličitanu vápenatého. Jak kolonie roste, přerůstá a opouští své starší části — z nich se stává základ útesu. Korálové porosty poskytují nespočet různě velkých úkrytů, od mikroskopických až po velké jeskyně uvnitř útesu."
+         data-en="The fundamental building block of the reef is colonies of polyps that together create a hard calcium carbonate skeleton. As a colony grows, it overgrows and abandons its older parts — these become the foundation of the reef. Coral growths provide countless hiding places of different sizes, from microscopic crevices to large caves within the reef.">
+        Základním stavebním kamenem útesu jsou kolonie polypů, kteří dohromady vytvářejí pevnou schránku z uhličitanu vápenatého. Jak kolonie roste, přerůstá a opouští své starší části — z nich se stává základ útesu. Korálové porosty poskytují nespočet různě velkých úkrytů, od mikroskopických až po velké jeskyně uvnitř útesu.
+      </p>
+
+      <div class="photo-block">
+        <img src="images/utes_foto2.jpg" alt="Polypi korálu">
+        <div class="photo-caption" data-cs="Detailní záběr polypů útesotvorného korálu rodu Acropora" data-en="Close-up of reef-building coral polyps of the genus Acropora">Detailní záběr polypů útesotvorného korálu rodu Acropora</div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">
+      <div class="footer-logo"><img src="images/logo.png" alt="ZOO Mořský svět"></div>
+      <span>ZOO Mořský svět<span class="dot"></span>www.morskysvet.cz</span>
+    </div>
+    <span>© 2025 ZOO Mořský svět</span>
+  </footer>
+
+  <script>
+    let currentLang = 'cs';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+      });
+      document.querySelectorAll('[data-cs]').forEach(el => {
+        el.textContent = el.dataset[lang] || el.dataset.cs;
+      });
+    }
+
+    function goHome() { window.location.href = 'index.html'; }
+
+    // drag scroll
+    const el = document.getElementById('scrollContent');
+    let isDown = false, startY, scrollTop;
+    el.addEventListener('mousedown', e => { isDown = true; startY = e.pageY - el.offsetTop; scrollTop = el.scrollTop; });
+    el.addEventListener('mouseleave', () => isDown = false);
+    el.addEventListener('mouseup', () => isDown = false);
+    el.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      el.scrollTop = scrollTop - (e.pageY - el.offsetTop - startY);
+    });
+    el.addEventListener('touchstart', e => { startY = e.touches[0].pageY; scrollTop = el.scrollTop; }, { passive: true });
+    el.addEventListener('touchmove', e => {
+      el.scrollTop = scrollTop - (e.touches[0].pageY - startY);
+    }, { passive: true });
+
+    document.addEventListener('click', function(e) {
+      const r = document.createElement('div');
+      r.className = 'ripple';
+      r.style.left = e.clientX + 'px';
+      r.style.top = e.clientY + 'px';
+      document.body.appendChild(r);
+      setTimeout(() => r.remove(), 600);
+    });
+  </script>
+
+  <!-- auto-reset po nečinnosti -->
+  <script>
+  (function() {
+    var TIMEOUT = 60 * 1000;
+    var HOME = "index.html";
+    var timer;
+    function reset() {
+      clearTimeout(timer);
+      timer = setTimeout(function() { window.location.href = HOME; }, TIMEOUT);
+    }
+    ["mousemove","mousedown","touchstart","touchmove","keydown","scroll","click"].forEach(function(e) {
+      document.addEventListener(e, reset, { passive: true });
+    });
+    reset();
+  })();
+  </script>
+
+</body>
+</html>

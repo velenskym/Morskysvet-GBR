@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Velký bariérový útes — ZOO Mořský svět</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #00A0E3;
+      --dark-blue: #56688F;
+      --deeper: #00325a;
+      --navy: #004469;
+      --orange: #EF7F1A;
+      --bg: #001a2e;
+      --text: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      transform-origin: top left;
+      transform: scale(0.7115);
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      position: fixed;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      user-select: none;
+      cursor: none;
+    }
+
+    /* ── HEADER ── */
+    header {
+      height: 130px;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 70px;
+      border-bottom: 2px solid rgba(0,160,227,0.25);
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo img {
+      height: 110px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .lang-switch {
+      display: flex;
+      gap: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 5px;
+    }
+
+    .lang-btn {
+      padding: 10px 28px;
+      border-radius: 7px;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .lang-btn.active { background: var(--blue); color: white; }
+    .lang-btn:not(.active) { background: transparent; color: rgba(255,255,255,0.4); }
+
+    /* ── HERO ── */
+    .hero {
+      height: 428px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .hero-image {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .hero-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, transparent 50%, var(--bg) 100%),
+        linear-gradient(to bottom, var(--bg) 0%, transparent 10%, transparent 88%, var(--bg) 100%),
+        linear-gradient(to left, transparent 96%, var(--bg) 100%);
+    }
+
+    .hero-content {
+      padding: 50px 80px 50px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-tag {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 70px;
+      font-weight: 700;
+      line-height: 1.0;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #a8d8f0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.65);
+      max-width: 500px;
+    }
+
+    /* ── CARDS ── */
+    .cards-row {
+      height: calc(1080px - 130px - 428px - 52px);
+      padding: 22px 70px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 28px;
+      animation: fadeUp 0.5s 0.15s ease both;
+    }
+
+    .card {
+      background: var(--deeper);
+      border-radius: 18px;
+      display: flex;
+      flex-direction: row;
+      cursor: pointer;
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1px solid rgba(0,160,227,0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--card-accent, var(--blue));
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .card-photo {
+      width: 220px;
+      min-width: 220px;
+      overflow: hidden;
+    }
+
+    .card-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover .card-photo img { transform: scale(1.06); }
+
+    .card-body {
+      padding: 28px 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--blue));
+    }
+
+    .card-title {
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.25;
+      color: white;
+    }
+
+    .card-desc {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-arrow {
+      color: var(--card-accent, var(--blue));
+      font-size: 20px;
+      font-weight: 700;
+      align-self: flex-end;
+    }
+
+    .card:nth-child(1) { --card-accent: #00A0E3; }
+    .card:nth-child(2) { --card-accent: #EF7F1A; }
+    .card:nth-child(3) { --card-accent: #4ecdc4; }
+
+    /* ── FOOTER ── */
+    footer {
+      height: 52px;
+      background: rgba(0,0,0,0.5);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 70px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-logo img {
+      height: 30px;
+      width: auto;
+      opacity: 0.5;
+    }
+
+    footer span {
+      font-size: 13px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.04em;
+    }
+
+    .dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: inline-block;
+      margin: 0 10px;
+      vertical-align: middle;
+    }
+
+    .ripple {
+      position: fixed;
+      width: 60px; height: 60px;
+      margin-left: -30px; margin-top: -30px;
+      border-radius: 50%;
+      background: rgba(0,160,227,0.25);
+      pointer-events: none;
+      animation: rippleOut 0.5s ease-out forwards;
+      z-index: 9999;
+    }
+    @keyframes rippleOut { to { transform: scale(3); opacity: 0; } }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="ZOO Mořský svět">
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('cs')">CS</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-image">
+      <img src="images/hero.jpg" alt="Velký bariérový útes">
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag" data-cs="Austrálie · Korálové moře" data-en="Australia · Coral Sea">Austrálie · Korálové moře</div>
+      <h1 class="hero-title" data-cs="Velký bariérový útes" data-en="Great Barrier Reef">Velký bariérový útes</h1>
+      <p class="hero-sub"
+         data-cs="Největší živý útvar na Zemi, viditelný z vesmíru. Více než 2 900 dílčích útesů a 900 ostrovů podél australského pobřeží."
+         data-en="The largest living structure on Earth, visible from space. More than 2,900 individual reefs and 900 islands along the Australian coast.">
+        Největší živý útvar na Zemi, viditelný z vesmíru. Více než 2 900 dílčích útesů a 900 ostrovů podél australského pobřeží.
+      </p>
+    </div>
+  </section>
+
+  <section class="cards-row">
+    <div class="card" onclick="navigate('utes')">
+      <div class="card-photo">
+        <img src="images/card_utes.jpg" alt="Velký bariérový útes">
+      </div>
+      <div class="card-body">
+        <div class="card-label" data-cs="Článek" data-en="Article">Článek</div>
+        <div class="card-title" data-cs="Velký bariérový útes" data-en="Great Barrier Reef">Velký bariérový útes</div>
+        <div class="card-desc"
+             data-cs="Největší korálový útes na světě — jak vznikl, co ho ohrožuje a proč je unikátní."
+             data-en="The world's largest coral reef — how it formed, what threatens it, and why it is unique.">
+          Největší korálový útes na světě — jak vznikl, co ho ohrožuje a proč je unikátní.
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="navigate('beleni')">
+      <div class="card-photo">
+        <img src="images/card_beleni.jpg" alt="Bělení korálů">
+      </div>
+      <div class="card-body">
+        <div class="card-label" data-cs="Článek" data-en="Article">Článek</div>
+        <div class="card-title" data-cs="Bělení korálů" data-en="Coral Bleaching">Bělení korálů</div>
+        <div class="card-desc"
+             data-cs="Proč koráli bělí, co za tím stojí a co hrozí útesům po celém světě."
+             data-en="Why corals bleach, what causes it, and what threatens reefs around the world.">
+          Proč koráli bělí, co za tím stojí a co hrozí útesům po celém světě.
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <div class="card" onclick="navigate('zivocichove')">
+      <div class="card-photo">
+        <img src="images/card_zivocichove.jpg" alt="Živočichové nádrže">
+      </div>
+      <div class="card-body">
+        <div class="card-label" data-cs="Průvodce" data-en="Guide">Průvodce</div>
+        <div class="card-title" data-cs="Živočichové nádrže" data-en="Tank Animals">Živočichové nádrže</div>
+        <div class="card-desc"
+             data-cs="Seznamte se s obyvateli tohoto akvária — od barevných ryb po houby a korály."
+             data-en="Meet the residents of this aquarium — from colorful fish to sponges and corals.">
+          Seznamte se s obyvateli tohoto akvária — od barevných ryb po houby a korály.
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">
+      <div class="footer-logo"><img src="images/logo.png" alt="ZOO Mořský svět"></div>
+      <span>ZOO Mořský svět<span class="dot"></span>www.morskysvet.cz</span>
+    </div>
+    <span>© 2025 ZOO Mořský svět</span>
+  </footer>
+
+  <script>
+    let currentLang = 'cs';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+      });
+      document.querySelectorAll('[data-cs]').forEach(el => {
+        el.textContent = el.dataset[lang] || el.dataset.cs;
+      });
+    }
+
+    function navigate(page) {
+      var pages = {
+        'utes': 'utes.html',
+        'beleni': 'beleni.html',
+        'zivocichove': 'zivocichove.html',
+        'admin': 'admin.html'
+      };
+      if (pages[page]) window.location.href = pages[page];
+    }
+
+    document.addEventListener('click', function(e) {
+      const r = document.createElement('div');
+      r.className = 'ripple';
+      r.style.left = e.clientX + 'px';
+      r.style.top = e.clientY + 'px';
+      document.body.appendChild(r);
+      setTimeout(() => r.remove(), 600);
+    });
+  </script>
+</body>
+</html>
