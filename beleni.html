@@ -360,13 +360,32 @@
     var TIMEOUT = 60 * 1000;
     var HOME = "index.html";
     var timer;
+    var videoFocused = false;
+
     function reset() {
+      if (videoFocused) return; // video hraje — neresetovat
       clearTimeout(timer);
       timer = setTimeout(function() { window.location.href = HOME; }, TIMEOUT);
     }
+
     ["mousemove","mousedown","touchstart","touchmove","keydown","scroll","click"].forEach(function(e) {
       document.addEventListener(e, reset, { passive: true });
     });
+
+    // Když uživatel klikne na iframe (video), zastaví se timer
+    window.addEventListener('blur', function() {
+      if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+        videoFocused = true;
+        clearTimeout(timer);
+      }
+    });
+
+    // Když se focus vrátí na stránku (kliknutí mimo video), timer se obnoví
+    window.addEventListener('focus', function() {
+      videoFocused = false;
+      reset();
+    });
+
     reset();
   })();
   </script>
