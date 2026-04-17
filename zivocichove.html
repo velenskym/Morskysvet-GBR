@@ -303,6 +303,14 @@
       </div>
       <div class="animal-active-dot"></div>
     </div>
+    <div class="animal-item" onclick="selectAnimal(1)">
+      <div class="animal-thumb"><img src="images/zivoc_1776415115515.jpg" alt="Pyskoun šestipruhý"></div>
+      <div class="animal-names">
+        <div class="animal-cs" data-cs="Pyskoun šestipruhý" data-en="Sixline wrasse">Pyskoun šestipruhý</div>
+        <div class="animal-la">Pseudocheilinus hexataenia</div>
+      </div>
+      <div class="animal-active-dot"></div>
+    </div>
   </nav>
 
   <!-- DETAIL -->
@@ -345,7 +353,7 @@
 <script>
   let currentLang = 'cs';
   let currentIndex = 0;
-  const total = 1;
+  const total = 2;
 
   // --- Data živočichů — doplnit po probrání druhů ---
   const animals = [
@@ -358,6 +366,17 @@
     "desc_cs": "Je to aktivní denní druh, který obývá laguny korálových útesů a příbřežní útesy. Celý den hledá potravu, kterou tvoří drobní bezobratlí nebo jikry.\nSvůj život začíná jako samice, v dospělosti pak někteří projdou rodozměnou a změní se v samce. Celý proces trvá jen 10 dní.\nVytírá se v párech nebo hromadně, jikry plavou a jsou unášeny proudy.",
     "desc_en": "",
     "img": "images/zivoc_1776414813360.jpg",
+    "map": "images/mapa_rozsireni.svg"
+  },
+  {
+    "cs": "Pyskoun šestipruhý",
+    "en": "Sixline wrasse",
+    "la": "Pseudocheilinus hexataenia",
+    "tag_cs": "Velký bariérový útes",
+    "tag_en": "Great Barrier Reef",
+    "desc_cs": "Tato drobná rybka se ukrývá mezi větvemi tvrdých korálů. Neustále opatrně propátrává své okolí, a hledá drobnou živou potravu.\nV akváriích jsou známí jako jedni z mála, kteří požíraji nechtěné ploštěnky – drobné bezobratlé žijící na povrchu kamenů i korálů.\nI když se snaží žít skrytým způsobem života, tak jsou velmi aktivní a stále na lovu.",
+    "desc_en": "",
+    "img": "images/zivoc_1776415115515.jpg",
     "map": "images/mapa_rozsireni.svg"
   }
 ];
