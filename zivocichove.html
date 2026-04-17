@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+f<!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
@@ -457,6 +457,7 @@
   function prevAnimal() { if (currentIndex > 0) selectAnimal(currentIndex - 1); }
   function nextAnimal() { if (currentIndex < total - 1) selectAnimal(currentIndex + 1); }
   function goHome() { window.location.href = 'index.html'; }
+    if(animals.length > 0) renderDetail(0);
 
   document.addEventListener('click', function(e) {
     const r = document.createElement('div');
