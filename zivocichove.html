@@ -296,46 +296,10 @@
     <div class="sidebar-header" data-cs="Živočichové nádrže" data-en="Tank Animals">Živočichové nádrže</div>
 
     <div class="animal-item active" onclick="selectAnimal(0)">
-      <div class="animal-thumb"><img src="images/zivoc_001.jpg" alt="Živočich 1"></div>
+      <div class="animal-thumb"><img src="images/zivoc_1776414813360.jpg" alt="Kněžík srpkovitý"></div>
       <div class="animal-names">
-        <div class="animal-cs" data-cs="Živočich 1" data-en="Animal 1">Živočich 1</div>
-        <div class="animal-la">Lorem ipsum</div>
-      </div>
-      <div class="animal-active-dot"></div>
-    </div>
-
-    <div class="animal-item" onclick="selectAnimal(1)">
-      <div class="animal-thumb">🐠</div>
-      <div class="animal-names">
-        <div class="animal-cs" data-cs="Živočich 2" data-en="Animal 2">Živočich 2</div>
-        <div class="animal-la">Lorem ipsum</div>
-      </div>
-      <div class="animal-active-dot"></div>
-    </div>
-
-    <div class="animal-item" onclick="selectAnimal(2)">
-      <div class="animal-thumb">🐡</div>
-      <div class="animal-names">
-        <div class="animal-cs" data-cs="Živočich 3" data-en="Animal 3">Živočich 3</div>
-        <div class="animal-la">Lorem ipsum</div>
-      </div>
-      <div class="animal-active-dot"></div>
-    </div>
-
-    <div class="animal-item" onclick="selectAnimal(3)">
-      <div class="animal-thumb">🦑</div>
-      <div class="animal-names">
-        <div class="animal-cs" data-cs="Živočich 4" data-en="Animal 4">Živočich 4</div>
-        <div class="animal-la">Lorem ipsum</div>
-      </div>
-      <div class="animal-active-dot"></div>
-    </div>
-
-    <div class="animal-item" onclick="selectAnimal(4)">
-      <div class="animal-thumb">🐙</div>
-      <div class="animal-names">
-        <div class="animal-cs" data-cs="Živočich 5" data-en="Animal 5">Živočich 5</div>
-        <div class="animal-la">Lorem ipsum</div>
+        <div class="animal-cs" data-cs="Kněžík srpkovitý" data-en="Moon Wrasse">Kněžík srpkovitý</div>
+        <div class="animal-la">Thalassoma lunare</div>
       </div>
       <div class="animal-active-dot"></div>
     </div>
@@ -381,51 +345,22 @@
 <script>
   let currentLang = 'cs';
   let currentIndex = 0;
-  const total = 5;
+  const total = 1;
 
   // --- Data živočichů — doplnit po probrání druhů ---
   const animals = [
-    {
-      cs: 'Živočich 1', en: 'Animal 1', la: 'Lorem ipsum',
-      tag_cs: 'Velký bariérový útes', tag_en: 'Great Barrier Reef',
-      desc_cs: 'Popis živočicha bude doplněn.',
-      desc_en: 'Animal description to be added.',
-      img: 'images/zivoc_001.jpg',
-      map: 'images/mapa_rozsireni.jpg'
-    },
-    {
-      cs: 'Živočich 2', en: 'Animal 2', la: 'Lorem ipsum',
-      tag_cs: 'Velký bariérový útes', tag_en: 'Great Barrier Reef',
-      desc_cs: 'Popis živočicha bude doplněn.',
-      desc_en: 'Animal description to be added.',
-      img: null,
-      map: 'images/mapa_rozsireni.jpg'
-    },
-    {
-      cs: 'Živočich 3', en: 'Animal 3', la: 'Lorem ipsum',
-      tag_cs: 'Velký bariérový útes', tag_en: 'Great Barrier Reef',
-      desc_cs: 'Popis živočicha bude doplněn.',
-      desc_en: 'Animal description to be added.',
-      img: null,
-      map: 'images/mapa_rozsireni.jpg'
-    },
-    {
-      cs: 'Živočich 4', en: 'Animal 4', la: 'Lorem ipsum',
-      tag_cs: 'Velký bariérový útes', tag_en: 'Great Barrier Reef',
-      desc_cs: 'Popis živočicha bude doplněn.',
-      desc_en: 'Animal description to be added.',
-      img: null,
-      map: 'images/mapa_rozsireni.jpg'
-    },
-    {
-      cs: 'Živočich 5', en: 'Animal 5', la: 'Lorem ipsum',
-      tag_cs: 'Velký bariérový útes', tag_en: 'Great Barrier Reef',
-      desc_cs: 'Popis živočicha bude doplněn.',
-      desc_en: 'Animal description to be added.',
-      img: null,
-      map: 'images/mapa_rozsireni.jpg'
-    }
-  ];
+  {
+    "cs": "Kněžík srpkovitý",
+    "en": "Moon Wrasse",
+    "la": "Thalassoma lunare",
+    "tag_cs": "Velký bariérový útes",
+    "tag_en": "Great Barrier Reef",
+    "desc_cs": "Je to aktivní denní druh, který obývá laguny korálových útesů a příbřežní útesy. Celý den hledá potravu, kterou tvoří drobní bezobratlí nebo jikry.\nSvůj život začíná jako samice, v dospělosti pak někteří projdou rodozměnou a změní se v samce. Celý proces trvá jen 10 dní.\nVytírá se v párech nebo hromadně, jikry plavou a jsou unášeny proudy.",
+    "desc_en": "",
+    "img": "images/zivoc_1776414813360.jpg",
+    "map": "images/mapa_rozsireni.svg"
+  }
+];
 
   function setLang(lang) {
     currentLang = lang;
