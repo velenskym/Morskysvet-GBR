@@ -14,421 +14,313 @@
       --bg: #001a2e;
       --surface: #002440;
       --border: rgba(0,160,227,0.15);
+      --green: #2ecc71;
+      --red: #e74c3c;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: #fff;
-      min-height: 100vh;
-    }
+    body { font-family:'DM Sans',sans-serif; background:var(--bg); color:#fff; min-height:100vh; }
 
-    /* ── HEADER ── */
+    /* SETUP OVERLAY */
+    .setup-overlay {
+      position:fixed; inset:0; background:var(--bg);
+      z-index:9999; display:flex; align-items:center; justify-content:center;
+    }
+    .setup-box {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:16px; padding:48px; max-width:480px; width:90%;
+    }
+    .setup-box h2 { font-size:22px; font-weight:700; margin-bottom:8px; }
+    .setup-box p { font-size:14px; font-weight:300; color:rgba(255,255,255,0.5); line-height:1.6; margin-bottom:28px; }
+    .setup-box input {
+      width:100%; background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1); border-radius:8px;
+      padding:12px 14px; font-size:14px; color:white;
+      font-family:'DM Sans',sans-serif; margin-bottom:12px; outline:none;
+    }
+    .setup-box input:focus { border-color:var(--blue); }
+    .setup-btn {
+      width:100%; padding:12px; background:var(--blue); color:white;
+      border:none; border-radius:8px; font-size:15px; font-weight:600;
+      cursor:pointer; font-family:'DM Sans',sans-serif;
+    }
+    .setup-btn:hover { background:#0090d0; }
+    .setup-error { color:var(--red); font-size:13px; margin-top:10px; display:none; }
+
+    /* HEADER */
     header {
-      background: var(--navy);
-      border-bottom: 2px solid var(--border);
-      padding: 0 40px;
-      height: 70px;
-      display: flex; align-items: center;
-      justify-content: space-between;
-      position: sticky; top: 0; z-index: 100;
+      background:var(--navy); border-bottom:2px solid var(--border);
+      padding:0 40px; height:70px;
+      display:flex; align-items:center; justify-content:space-between;
+      position:sticky; top:0; z-index:100;
     }
-    .header-brand {
-      display: flex; align-items: center; gap: 16px;
-      font-size: 18px; font-weight: 700;
-      color: white;
+    .header-brand { display:flex; align-items:center; gap:16px; font-size:18px; font-weight:700; }
+    .header-badge {
+      font-size:11px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase;
+      color:var(--blue); background:rgba(0,160,227,0.12);
+      border:1px solid rgba(0,160,227,0.3); border-radius:6px; padding:3px 10px;
     }
-    .header-brand span {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--blue);
-      background: rgba(0,160,227,0.12);
-      border: 1px solid rgba(0,160,227,0.3);
-      border-radius: 6px;
-      padding: 3px 10px;
+    .header-right { display:flex; align-items:center; gap:12px; }
+    .save-status { font-size:13px; font-weight:500; color:rgba(255,255,255,0.3); transition:color 0.3s; }
+    .save-status.saving { color:var(--orange); }
+    .save-status.saved { color:var(--green); }
+    .save-status.error { color:var(--red); }
+    .btn-logout {
+      padding:6px 14px; background:transparent;
+      border:1px solid rgba(255,255,255,0.15); border-radius:7px;
+      color:rgba(255,255,255,0.4); font-size:13px; cursor:pointer;
+      font-family:'DM Sans',sans-serif; transition:all 0.2s;
     }
+    .btn-logout:hover { border-color:var(--red); color:var(--red); }
     .preview-btn {
-      padding: 8px 20px;
-      background: var(--blue);
-      color: white;
-      border: none; border-radius: 8px;
-      font-size: 14px; font-weight: 600;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      text-decoration: none;
-      display: inline-flex; align-items: center; gap: 6px;
+      padding:8px 20px; background:var(--blue); color:white;
+      border:none; border-radius:8px; font-size:14px; font-weight:600;
+      cursor:pointer; font-family:'DM Sans',sans-serif;
+      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
     }
-    .preview-btn:hover { background: #0090d0; }
+    .preview-btn:hover { background:#0090d0; }
 
-    /* ── LAYOUT ── */
-    .admin-layout {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      min-height: calc(100vh - 70px);
-    }
+    /* LAYOUT */
+    .admin-layout { display:grid; grid-template-columns:220px 1fr; min-height:calc(100vh - 70px); }
 
-    /* ── SIDEBAR NAV ── */
+    /* SIDEBAR */
     .admin-nav {
-      background: #001a30;
-      border-right: 1px solid var(--border);
-      padding: 24px 0;
+      background:#001a30; border-right:1px solid var(--border);
+      padding:24px 0; position:sticky; top:70px;
+      height:calc(100vh - 70px); overflow-y:auto;
     }
     .nav-section {
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      padding: 0 20px 8px;
-      margin-top: 20px;
+      font-size:10px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase;
+      color:rgba(255,255,255,0.25); padding:0 20px 8px; margin-top:20px;
     }
-    .nav-section:first-child { margin-top: 0; }
+    .nav-section:first-child { margin-top:0; }
     .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 20px;
-      font-size: 14px; font-weight: 500;
-      color: rgba(255,255,255,0.6);
-      cursor: pointer;
-      transition: all 0.15s;
-      border-left: 3px solid transparent;
+      display:flex; align-items:center; gap:10px; padding:10px 20px;
+      font-size:14px; font-weight:500; color:rgba(255,255,255,0.6);
+      cursor:pointer; transition:all 0.15s; border-left:3px solid transparent;
     }
-    .nav-item:hover { background: rgba(255,255,255,0.04); color: white; }
-    .nav-item.active {
-      background: rgba(0,160,227,0.1);
-      border-left-color: var(--blue);
-      color: white;
-    }
-    .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+    .nav-item:hover { background:rgba(255,255,255,0.04); color:white; }
+    .nav-item.active { background:rgba(0,160,227,0.1); border-left-color:var(--blue); color:white; }
 
-    /* ── MAIN CONTENT ── */
-    .admin-main {
-      padding: 36px 48px;
-      overflow-y: auto;
-    }
+    /* MAIN */
+    .admin-main { padding:36px 48px; }
+    .page-title { font-size:28px; font-weight:700; margin-bottom:6px; }
+    .page-sub { font-size:14px; font-weight:300; color:rgba(255,255,255,0.4); margin-bottom:32px; }
 
-    .page-title {
-      font-size: 28px; font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .page-sub {
-      font-size: 14px; font-weight: 300;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 32px;
-    }
-
-    /* ── CARDS ── */
+    /* CARDS */
     .section-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px;
-      margin-bottom: 24px;
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:14px; padding:28px; margin-bottom:24px;
     }
     .section-card-title {
-      font-size: 13px; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 20px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
+      font-size:13px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+      color:var(--blue); margin-bottom:20px; padding-bottom:12px;
+      border-bottom:1px solid var(--border);
     }
 
-    /* ── FORM ELEMENTS ── */
-    .field { margin-bottom: 20px; }
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    /* FORM */
+    .field { margin-bottom:20px; }
+    .field-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
     label {
-      display: block;
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 6px;
+      display:block; font-size:11px; font-weight:700;
+      letter-spacing:0.12em; text-transform:uppercase;
+      color:rgba(255,255,255,0.35); margin-bottom:6px;
     }
     .lang-tag {
-      display: inline-block;
-      font-size: 9px; font-weight: 700;
-      letter-spacing: 0.1em;
-      background: rgba(0,160,227,0.15);
-      color: var(--blue);
-      border-radius: 4px;
-      padding: 2px 6px;
-      margin-left: 6px;
-      vertical-align: middle;
+      display:inline-block; font-size:9px; font-weight:700; letter-spacing:0.1em;
+      background:rgba(0,160,227,0.15); color:var(--blue);
+      border-radius:4px; padding:2px 6px; margin-left:6px; vertical-align:middle;
     }
-    input[type="text"], textarea, select {
-      width: 100%;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 14px; font-weight: 400;
-      color: white;
-      font-family: 'DM Sans', sans-serif;
-      transition: border-color 0.2s;
-      outline: none;
+    input[type="text"], input[type="password"], textarea {
+      width:100%; background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1); border-radius:8px;
+      padding:10px 14px; font-size:14px; color:white;
+      font-family:'DM Sans',sans-serif; transition:border-color 0.2s; outline:none;
     }
-    input[type="text"]:focus, textarea:focus, select:focus {
-      border-color: var(--blue);
-    }
-    textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
-    select option { background: var(--deeper); }
+    input:focus, textarea:focus { border-color:var(--blue); }
+    textarea { resize:vertical; min-height:90px; line-height:1.6; }
 
-    /* ── PHOTO UPLOAD ── */
+    /* PHOTO UPLOAD */
     .photo-upload-area {
-      border: 2px dashed rgba(0,160,227,0.25);
-      border-radius: 10px;
-      padding: 28px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: rgba(0,160,227,0.03);
+      border:2px dashed rgba(0,160,227,0.25); border-radius:10px;
+      padding:24px; text-align:center; cursor:pointer;
+      transition:all 0.2s; background:rgba(0,160,227,0.03);
     }
-    .photo-upload-area:hover {
-      border-color: var(--blue);
-      background: rgba(0,160,227,0.07);
-    }
-    .photo-upload-icon { font-size: 32px; margin-bottom: 8px; }
-    .photo-upload-text { font-size: 13px; color: rgba(255,255,255,0.4); }
-    .photo-upload-text strong { color: var(--blue); }
-    .photo-preview {
-      display: none;
-      margin-top: 12px;
-      border-radius: 8px;
-      overflow: hidden;
-      max-height: 160px;
-    }
-    .photo-preview img { width: 100%; max-height: 160px; object-fit: cover; display: block; }
+    .photo-upload-area:hover { border-color:var(--blue); background:rgba(0,160,227,0.07); }
+    .photo-upload-icon { font-size:28px; margin-bottom:6px; }
+    .photo-upload-text { font-size:13px; color:rgba(255,255,255,0.4); }
+    .photo-upload-text strong { color:var(--blue); }
+    .photo-preview { display:none; margin-top:12px; border-radius:8px; overflow:hidden; max-height:160px; }
+    .photo-preview img { width:100%; max-height:160px; object-fit:cover; display:block; }
+    .upload-progress { margin-top:8px; font-size:12px; color:var(--orange); display:none; }
 
-    /* ── ANIMALS LIST ── */
-    .animals-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
-      margin-bottom: 20px;
+    /* ANIMALS */
+    .animals-list { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+    .animal-row {
+      background:rgba(0,160,227,0.05); border:1px solid var(--border);
+      border-radius:10px; padding:14px 18px;
+      display:flex; align-items:center; gap:14px; transition:all 0.2s;
     }
-    .animal-card {
-      background: rgba(0,160,227,0.05);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      display: flex; align-items: center; gap: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
+    .animal-row:hover { background:rgba(0,160,227,0.1); border-color:rgba(0,160,227,0.3); }
+    .animal-thumb {
+      width:56px; height:46px; border-radius:8px; overflow:hidden;
+      background:var(--deeper); flex-shrink:0;
+      display:flex; align-items:center; justify-content:center; font-size:20px;
     }
-    .animal-card:hover { background: rgba(0,160,227,0.1); border-color: rgba(0,160,227,0.3); }
-    .animal-card-thumb {
-      width: 60px; height: 50px;
-      border-radius: 8px; overflow: hidden;
-      background: var(--deeper);
-      flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
-    }
-    .animal-card-thumb img { width:100%; height:100%; object-fit:cover; }
-    .animal-card-info { flex: 1; min-width: 0; }
-    .animal-card-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .animal-card-la { font-size: 12px; font-weight: 300; font-style: italic; color: rgba(255,255,255,0.35); margin-top: 2px; }
-    .animal-card-actions { display: flex; gap: 6px; }
+    .animal-thumb img { width:100%; height:100%; object-fit:cover; }
+    .animal-info { flex:1; min-width:0; }
+    .animal-name { font-size:15px; font-weight:600; }
+    .animal-la { font-size:12px; font-style:italic; color:rgba(255,255,255,0.35); margin-top:2px; }
+    .animal-actions { display:flex; gap:6px; }
     .btn-icon {
-      width: 30px; height: 30px;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: transparent;
-      color: rgba(255,255,255,0.4);
-      cursor: pointer; font-size: 14px;
-      transition: all 0.15s;
-      display: flex; align-items: center; justify-content: center;
+      width:32px; height:32px; border-radius:7px;
+      border:1px solid rgba(255,255,255,0.1); background:transparent;
+      color:rgba(255,255,255,0.4); cursor:pointer; font-size:14px;
+      transition:all 0.15s; display:flex; align-items:center; justify-content:center;
     }
-    .btn-icon:hover { background: rgba(255,255,255,0.08); color: white; }
-    .btn-icon.danger:hover { background: rgba(220,60,60,0.2); border-color: rgba(220,60,60,0.4); color: #ff6b6b; }
+    .btn-icon:hover { background:rgba(255,255,255,0.08); color:white; }
+    .btn-icon.danger:hover { background:rgba(231,76,60,0.2); border-color:rgba(231,76,60,0.4); color:var(--red); }
 
-    /* ── BUTTONS ── */
-    .btn-row { display: flex; gap: 12px; margin-top: 8px; }
+    /* BUTTONS */
+    .btn-row { display:flex; gap:12px; margin-top:8px; }
     .btn {
-      padding: 10px 24px;
-      border-radius: 8px;
-      font-size: 14px; font-weight: 600;
-      cursor: pointer; border: none;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.2s;
+      padding:10px 24px; border-radius:8px; font-size:14px; font-weight:600;
+      cursor:pointer; border:none; font-family:'DM Sans',sans-serif; transition:all 0.2s;
     }
-    .btn-primary { background: var(--blue); color: white; }
-    .btn-primary:hover { background: #0090d0; }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.15);
-      color: rgba(255,255,255,0.6);
-    }
-    .btn-secondary:hover { border-color: rgba(255,255,255,0.3); color: white; }
-    .btn-add {
-      background: rgba(0,160,227,0.1);
-      border: 1px dashed rgba(0,160,227,0.4);
-      color: var(--blue);
-      width: 100%;
-      padding: 12px;
-    }
-    .btn-add:hover { background: rgba(0,160,227,0.2); }
+    .btn-primary { background:var(--blue); color:white; }
+    .btn-primary:hover { background:#0090d0; }
+    .btn-secondary { background:transparent; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.6); }
+    .btn-secondary:hover { border-color:rgba(255,255,255,0.3); color:white; }
+    .btn-add { background:rgba(0,160,227,0.08); border:1px dashed rgba(0,160,227,0.4); color:var(--blue); width:100%; padding:12px; }
+    .btn-add:hover { background:rgba(0,160,227,0.16); }
 
-    /* ── TOAST ── */
-    .toast {
-      position: fixed; bottom: 28px; right: 28px;
-      background: var(--deeper);
-      border: 1px solid rgba(0,160,227,0.4);
-      border-radius: 10px;
-      padding: 14px 22px;
-      font-size: 14px; font-weight: 500;
-      color: white;
-      z-index: 9999;
-      opacity: 0; transform: translateY(10px);
-      transition: all 0.3s;
-      pointer-events: none;
-    }
-    .toast.show { opacity: 1; transform: translateY(0); }
-
-    /* ── TAB PANELS ── */
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    /* ── STATS ── */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 24px;
-    }
-    .stat-card-value { font-size: 36px; font-weight: 700; color: var(--blue); }
-    .stat-card-label { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.35); margin-top: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
-    .stat-card-note { font-size: 12px; color: rgba(255,255,255,0.2); margin-top: 6px; }
-
+    /* INFO BOX */
     .info-box {
-      background: rgba(0,160,227,0.06);
-      border: 1px solid rgba(0,160,227,0.2);
-      border-radius: 10px;
-      padding: 16px 20px;
-      font-size: 14px; font-weight: 300;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.6;
+      background:rgba(0,160,227,0.06); border:1px solid rgba(0,160,227,0.2);
+      border-radius:10px; padding:16px 20px; font-size:14px; font-weight:300;
+      color:rgba(255,255,255,0.6); line-height:1.6;
     }
-    .info-box strong { color: var(--blue); font-weight: 600; }
+    .info-box strong { color:var(--blue); font-weight:600; }
+    .info-box code { background:rgba(255,255,255,0.08); border-radius:4px; padding:1px 6px; font-size:13px; }
+
+    /* TOAST */
+    .toast {
+      position:fixed; bottom:28px; right:28px; background:var(--deeper);
+      border:1px solid rgba(0,160,227,0.4); border-radius:10px;
+      padding:14px 22px; font-size:14px; font-weight:500;
+      z-index:9999; opacity:0; transform:translateY(10px);
+      transition:all 0.3s; pointer-events:none;
+    }
+    .toast.show { opacity:1; transform:translateY(0); }
+    .toast.error { border-color:rgba(231,76,60,0.5); }
+
+    /* TAB PANELS */
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+
+    /* LOADING */
+    .loading { display:flex; align-items:center; gap:10px; color:rgba(255,255,255,0.4); font-size:14px; padding:20px 0; }
+    .spinner {
+      width:18px; height:18px; border:2px solid rgba(0,160,227,0.2);
+      border-top-color:var(--blue); border-radius:50%;
+      animation:spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
   </style>
 </head>
 <body>
 
+<!-- SETUP OVERLAY -->
+<div class="setup-overlay" id="setupOverlay">
+  <div class="setup-box">
+    <h2>🔑 Připojení k GitHubu</h2>
+    <p>Zadej GitHub Personal Access Token (oprávnění: <strong>repo</strong>) a název repozitáře. Token se uloží pouze v tomto prohlížeči.</p>
+    <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxx" autocomplete="off">
+    <input type="text" id="repoInput" placeholder="velenskym/Morskysvet-GBR" value="velenskym/Morskysvet-GBR">
+    <button class="setup-btn" onclick="setupGitHub()">Připojit</button>
+    <div class="setup-error" id="setupError"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
 <header>
   <div class="header-brand">
-    ZOO Mořský svět
-    <span>Admin · GBR</span>
+    ZOO Mořský svět <span class="header-badge">Admin · GBR</span>
   </div>
-  <a href="index.html" class="preview-btn" target="_blank">↗ Náhled aplikace</a>
+  <div class="header-right">
+    <span class="save-status" id="saveStatus"></span>
+    <a href="index.html" class="preview-btn" target="_blank">↗ Náhled</a>
+    <button class="btn-logout" onclick="logout()">Odhlásit</button>
+  </div>
 </header>
 
 <div class="admin-layout">
 
-  <!-- NAV -->
   <nav class="admin-nav">
     <div class="nav-section">Obsah</div>
-    <div class="nav-item active" onclick="showPanel('homepage')">
-      <span class="nav-icon">🏠</span> Homepage
-    </div>
-    <div class="nav-item" onclick="showPanel('utes')">
-      <span class="nav-icon">🪸</span> Velký bariérový útes
-    </div>
-    <div class="nav-item" onclick="showPanel('beleni')">
-      <span class="nav-icon">🌡</span> Bělení korálů
-    </div>
-    <div class="nav-item" onclick="showPanel('zivocichove')">
-      <span class="nav-icon">🐠</span> Živočichové
-    </div>
+    <div class="nav-item active" onclick="showPanel('homepage',this)">🏠 Homepage</div>
+    <div class="nav-item" onclick="showPanel('utes',this)">🪸 Bariérový útes</div>
+    <div class="nav-item" onclick="showPanel('beleni',this)">🌡 Bělení korálů</div>
+    <div class="nav-item" onclick="showPanel('zivocichove',this)">🐠 Živočichové</div>
     <div class="nav-section">Systém</div>
-    <div class="nav-item" onclick="showPanel('statistiky')">
-      <span class="nav-icon">📊</span> Statistiky
-    </div>
-    <div class="nav-item" onclick="showPanel('nastaveni')">
-      <span class="nav-icon">⚙️</span> Nastavení
-    </div>
+    <div class="nav-item" onclick="showPanel('nastaveni',this)">⚙️ Nastavení</div>
   </nav>
 
-  <!-- MAIN -->
   <main class="admin-main">
+
+    <div class="loading" id="mainLoading" style="display:none">
+      <div class="spinner"></div> Načítám data z GitHubu...
+    </div>
 
     <!-- HOMEPAGE -->
     <div class="tab-panel active" id="panel-homepage">
       <div class="page-title">Homepage</div>
-      <div class="page-sub">Hlavní stránka kiosku — hero sekce a karty</div>
-
+      <div class="page-sub">Hero sekce a karty na hlavní stránce</div>
       <div class="section-card">
         <div class="section-card-title">Hero sekce</div>
         <div class="field-row">
-          <div class="field">
-            <label>Podtitulek <span class="lang-tag">CS</span></label>
-            <input type="text" value="Austrálie · Korálové moře" id="hero_tag_cs">
-          </div>
-          <div class="field">
-            <label>Podtitulek <span class="lang-tag">EN</span></label>
-            <input type="text" value="Australia · Coral Sea" id="hero_tag_en">
-          </div>
+          <div class="field"><label>Podtitulek <span class="lang-tag">CS</span></label><input type="text" id="hero_tag_cs"></div>
+          <div class="field"><label>Podtitulek <span class="lang-tag">EN</span></label><input type="text" id="hero_tag_en"></div>
         </div>
         <div class="field-row">
-          <div class="field">
-            <label>Popis <span class="lang-tag">CS</span></label>
-            <textarea id="hero_desc_cs">Největší živý útvar na Zemi, viditelný z vesmíru. Více než 2 900 dílčích útesů a 900 ostrovů podél australského pobřeží.</textarea>
-          </div>
-          <div class="field">
-            <label>Popis <span class="lang-tag">EN</span></label>
-            <textarea id="hero_desc_en">The largest living structure on Earth, visible from space. More than 2,900 individual reefs and 900 islands along the Australian coast.</textarea>
-          </div>
+          <div class="field"><label>Popis <span class="lang-tag">CS</span></label><textarea id="hero_desc_cs"></textarea></div>
+          <div class="field"><label>Popis <span class="lang-tag">EN</span></label><textarea id="hero_desc_en"></textarea></div>
         </div>
         <div class="field">
           <label>Hero fotografie</label>
           <div class="photo-upload-area" onclick="document.getElementById('heroPhotoInput').click()">
             <div class="photo-upload-icon">📷</div>
-            <div class="photo-upload-text">Klikněte pro nahrání fotky<br><strong>nebo přetáhněte sem</strong></div>
-            <input type="file" id="heroPhotoInput" accept="image/*" style="display:none" onchange="previewPhoto(this,'heroPreview')">
+            <div class="photo-upload-text">Klikněte pro nahrání · <strong>Doporučeno: 1920×900px</strong></div>
+            <input type="file" id="heroPhotoInput" accept="image/*" style="display:none" onchange="uploadPhoto(this,'images/hero.jpg','heroPreview','heroProgress')">
           </div>
+          <div class="upload-progress" id="heroProgress">Nahrávám na GitHub...</div>
           <div class="photo-preview" id="heroPreview"><img src="" alt=""></div>
         </div>
-        <div class="btn-row">
-          <button class="btn btn-primary" onclick="saveSection('homepage')">Uložit změny</button>
-          <button class="btn btn-secondary">Zrušit</button>
-        </div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="saveHomepage()">Uložit změny</button></div>
       </div>
     </div>
 
     <!-- UTES -->
     <div class="tab-panel" id="panel-utes">
       <div class="page-title">Velký bariérový útes</div>
-      <div class="page-sub">Obsah článkové stránky utes.html</div>
-
+      <div class="page-sub">Obsah článku utes.html</div>
       <div class="section-card">
-        <div class="section-card-title">Nadpis a perex</div>
+        <div class="section-card-title">Perex</div>
         <div class="field-row">
-          <div class="field">
-            <label>Perex <span class="lang-tag">CS</span></label>
-            <textarea>Největší korálový útes na světě — a jediný živý útvar vytvořený jiným druhem než člověkem, který je viditelný z vesmíru.</textarea>
-          </div>
-          <div class="field">
-            <label>Perex <span class="lang-tag">EN</span></label>
-            <textarea>The world's largest coral reef — the only living structure built by a species other than humans that is visible from space.</textarea>
-          </div>
+          <div class="field"><label>Perex <span class="lang-tag">CS</span></label><textarea id="utes_perex_cs"></textarea></div>
+          <div class="field"><label>Perex <span class="lang-tag">EN</span></label><textarea id="utes_perex_en"></textarea></div>
         </div>
-        <div class="btn-row">
-          <button class="btn btn-primary" onclick="saveSection('utes')">Uložit změny</button>
-        </div>
+        <div class="btn-row"><button class="btn btn-primary" onclick="saveUtes()">Uložit změny</button></div>
       </div>
-
       <div class="section-card">
-        <div class="section-card-title">Fotografie</div>
+        <div class="section-card-title">Hero fotografie</div>
         <div class="field">
-          <label>Hero fotografie (levý sloupec)</label>
-          <div class="photo-upload-area" onclick="document.getElementById('utesHeroInput').click()">
+          <div class="photo-upload-area" onclick="document.getElementById('utesPhotoInput').click()">
             <div class="photo-upload-icon">📷</div>
-            <div class="photo-upload-text">Klikněte pro nahrání<br><strong>Doporučeno: 780×900px</strong></div>
-            <input type="file" id="utesHeroInput" accept="image/*" style="display:none" onchange="previewPhoto(this,'utesHeroPreview')">
+            <div class="photo-upload-text">Klikněte pro nahrání · <strong>Doporučeno: 780×900px</strong></div>
+            <input type="file" id="utesPhotoInput" accept="image/*" style="display:none" onchange="uploadPhoto(this,'images/utes_hero.jpg','utesPreview','utesProgress')">
           </div>
-          <div class="photo-preview" id="utesHeroPreview"><img src="" alt=""></div>
+          <div class="upload-progress" id="utesProgress">Nahrávám na GitHub...</div>
+          <div class="photo-preview" id="utesPreview"><img src="" alt=""></div>
         </div>
       </div>
     </div>
@@ -436,35 +328,28 @@
     <!-- BELENI -->
     <div class="tab-panel" id="panel-beleni">
       <div class="page-title">Bělení korálů</div>
-      <div class="page-sub">Obsah článkové stránky beleni.html</div>
-
+      <div class="page-sub">Obsah článku beleni.html</div>
       <div class="section-card">
         <div class="section-card-title">Video (YouTube)</div>
-        <div class="info-box">
-          <strong>Jak přidat video:</strong> Nahrajte video na YouTube jako <strong>Unlisted</strong> (neveřejné).
-          Zkopírujte ID videa z URL (část za <code>watch?v=</code>) a vložte sem.
-          Video se zobrazí bez reklam a doporučení.
+        <div class="info-box" style="margin-bottom:16px">
+          Nahrajte video na YouTube jako <strong>Unlisted</strong>. Zkopírujte ID z URL za <code>watch?v=</code> a vložte sem.
         </div>
-        <div class="field" style="margin-top:16px">
-          <label>YouTube Video ID</label>
-          <input type="text" placeholder="např. dQw4w9WgXcQ" id="youtube_id">
-        </div>
+        <div class="field"><label>YouTube Video ID</label><input type="text" id="youtube_id" placeholder="např. DRsUWSgad2s"></div>
         <div class="btn-row">
-          <button class="btn btn-primary" onclick="saveYoutube()">Uložit video</button>
-          <button class="btn btn-secondary" onclick="previewYoutube()">Náhled</button>
+          <button class="btn btn-primary" onclick="saveBeleni()">Uložit video</button>
+          <button class="btn btn-secondary" onclick="previewYoutube()">↗ Náhled videa</button>
         </div>
       </div>
-
       <div class="section-card">
-        <div class="section-card-title">Fotografie</div>
+        <div class="section-card-title">Hero fotografie</div>
         <div class="field">
-          <label>Hero fotografie (levý sloupec)</label>
-          <div class="photo-upload-area" onclick="document.getElementById('beleniHeroInput').click()">
+          <div class="photo-upload-area" onclick="document.getElementById('beleniPhotoInput').click()">
             <div class="photo-upload-icon">📷</div>
-            <div class="photo-upload-text">Klikněte pro nahrání<br><strong>Doporučeno: 780×900px</strong></div>
-            <input type="file" id="beleniHeroInput" accept="image/*" style="display:none" onchange="previewPhoto(this,'beleniHeroPreview')">
+            <div class="photo-upload-text">Klikněte pro nahrání · <strong>Doporučeno: 780×900px</strong></div>
+            <input type="file" id="beleniPhotoInput" accept="image/*" style="display:none" onchange="uploadPhoto(this,'images/beleni_hero.jpg','beleniPreview','beleniProgress')">
           </div>
-          <div class="photo-preview" id="beleniHeroPreview"><img src="" alt=""></div>
+          <div class="upload-progress" id="beleniProgress">Nahrávám na GitHub...</div>
+          <div class="photo-preview" id="beleniPreview"><img src="" alt=""></div>
         </div>
       </div>
     </div>
@@ -472,189 +357,478 @@
     <!-- ZIVOCICHOVE -->
     <div class="tab-panel" id="panel-zivocichove">
       <div class="page-title">Živočichové nádrže</div>
-      <div class="page-sub">Správa živočichů zobrazovaných v průvodci</div>
-
+      <div class="page-sub">Správa živočichů v průvodci</div>
       <div class="section-card">
         <div class="section-card-title">Seznam živočichů</div>
-        <div class="animals-grid" id="animalsList">
-          <div class="animal-card">
-            <div class="animal-card-thumb">🐠</div>
-            <div class="animal-card-info">
-              <div class="animal-card-name">Živočich 1</div>
-              <div class="animal-card-la">Lorem ipsum</div>
-            </div>
-            <div class="animal-card-actions">
-              <button class="btn-icon" title="Upravit">✏️</button>
-              <button class="btn-icon danger" title="Smazat">🗑</button>
-            </div>
-          </div>
-        </div>
-        <button class="btn btn-add" onclick="addAnimal()">+ Přidat živočicha</button>
+        <div class="animals-list" id="animalsList"></div>
+        <button class="btn btn-add" onclick="openAnimalForm(-1)">+ Přidat živočicha</button>
       </div>
-
       <div class="section-card" id="animalEditForm" style="display:none">
-        <div class="section-card-title">Upravit živočicha</div>
+        <div class="section-card-title" id="animalFormTitle">Nový živočich</div>
         <div class="field-row">
-          <div class="field">
-            <label>Název <span class="lang-tag">CS</span></label>
-            <input type="text" id="animal_cs" placeholder="český název">
-          </div>
-          <div class="field">
-            <label>Název <span class="lang-tag">EN</span></label>
-            <input type="text" id="animal_en" placeholder="English name">
-          </div>
+          <div class="field"><label>Název <span class="lang-tag">CS</span></label><input type="text" id="animal_cs"></div>
+          <div class="field"><label>Název <span class="lang-tag">EN</span></label><input type="text" id="animal_en"></div>
         </div>
-        <div class="field">
-          <label>Latinský název</label>
-          <input type="text" id="animal_la" placeholder="Genus species">
+        <div class="field"><label>Latinský název</label><input type="text" id="animal_la"></div>
+        <div class="field-row">
+          <div class="field"><label>Popis <span class="lang-tag">CS</span></label><textarea id="animal_desc_cs"></textarea></div>
+          <div class="field"><label>Popis <span class="lang-tag">EN</span></label><textarea id="animal_desc_en"></textarea></div>
         </div>
         <div class="field-row">
-          <div class="field">
-            <label>Popis <span class="lang-tag">CS</span></label>
-            <textarea id="animal_desc_cs" placeholder="Popis živočicha česky..."></textarea>
-          </div>
-          <div class="field">
-            <label>Popis <span class="lang-tag">EN</span></label>
-            <textarea id="animal_desc_en" placeholder="Animal description in English..."></textarea>
-          </div>
+          <div class="field"><label>Oblast výskytu <span class="lang-tag">CS</span></label><input type="text" id="animal_tag_cs" value="Velký bariérový útes"></div>
+          <div class="field"><label>Oblast výskytu <span class="lang-tag">EN</span></label><input type="text" id="animal_tag_en" value="Great Barrier Reef"></div>
         </div>
         <div class="field">
           <label>Fotografie</label>
           <div class="photo-upload-area" onclick="document.getElementById('animalPhotoInput').click()">
             <div class="photo-upload-icon">📷</div>
             <div class="photo-upload-text">Klikněte pro nahrání fotky živočicha</div>
-            <input type="file" id="animalPhotoInput" accept="image/*" style="display:none" onchange="previewPhoto(this,'animalPhotoPreview')">
+            <input type="file" id="animalPhotoInput" accept="image/*" style="display:none" onchange="prepareAnimalPhoto(this)">
           </div>
+          <div class="upload-progress" id="animalPhotoProgress">Nahrávám...</div>
           <div class="photo-preview" id="animalPhotoPreview"><img src="" alt=""></div>
         </div>
         <div class="btn-row">
           <button class="btn btn-primary" onclick="saveAnimal()">Uložit živočicha</button>
-          <button class="btn btn-secondary" onclick="document.getElementById('animalEditForm').style.display='none'">Zrušit</button>
+          <button class="btn btn-secondary" onclick="closeAnimalForm()">Zrušit</button>
         </div>
-      </div>
-    </div>
-
-    <!-- STATISTIKY -->
-    <div class="tab-panel" id="panel-statistiky">
-      <div class="page-title">Statistiky návštěvnosti</div>
-      <div class="page-sub">Přehled interakcí na kiosku</div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-card-value">—</div>
-          <div class="stat-card-label">Celkem návštěv</div>
-          <div class="stat-card-note">od spuštění</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-value">—</div>
-          <div class="stat-card-label">Dnes</div>
-          <div class="stat-card-note">zobrazení stránek</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-value">—</div>
-          <div class="stat-card-label">Oblíbená stránka</div>
-          <div class="stat-card-note">nejčastěji otevřená</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-value">—</div>
-          <div class="stat-card-label">Oblíbený živočich</div>
-          <div class="stat-card-note">nejčastěji zobrazený</div>
-        </div>
-      </div>
-
-      <div class="info-box">
-        <strong>Statistiky zatím nejsou aktivní.</strong><br>
-        Pro sběr dat je potřeba napojit aplikaci na backend (Supabase nebo jiný). 
-        Po napojení se zde zobrazí přehledy návštěvnosti pro všechny tablety.
       </div>
     </div>
 
     <!-- NASTAVENI -->
     <div class="tab-panel" id="panel-nastaveni">
       <div class="page-title">Nastavení</div>
-      <div class="page-sub">Konfigurace kiosku</div>
-
+      <div class="page-sub">GitHub připojení a informace</div>
       <div class="section-card">
-        <div class="section-card-title">Auto-reset</div>
-        <div class="field">
-          <label>Timeout nečinnosti (sekundy)</label>
-          <input type="text" value="60" id="timeout_val" style="max-width:120px">
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-primary" onclick="saveSection('nastaveni')">Uložit</button>
-        </div>
+        <div class="section-card-title">GitHub připojení</div>
+        <div class="field"><label>Repozitář</label><input type="text" id="settings_repo" readonly></div>
+        <div class="field"><label>Token</label><input type="password" id="settings_token" readonly></div>
+        <div class="btn-row"><button class="btn btn-secondary" onclick="logout()">Změnit přístupové údaje</button></div>
       </div>
-
       <div class="section-card">
         <div class="section-card-title">Kiosk URL</div>
-        <div class="info-box">
-          Aktuální URL kiosku: <strong>https://velenskym.github.io/Morskysvet-GBR</strong><br>
-          (po vytvoření repozitáře a zapnutí GitHub Pages)
-        </div>
+        <div class="info-box" id="kioskUrlInfo"></div>
       </div>
     </div>
 
   </main>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-  function showPanel(name) {
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('panel-' + name).classList.add('active');
-    event.currentTarget.classList.add('active');
+'use strict';
+
+// ── CONFIG ──
+let GH_TOKEN = '';
+let GH_REPO  = '';
+const GH_BRANCH = 'main';
+
+// ── ANIMALS STATE ──
+let animals = [];
+let editingAnimalIdx = -1;
+let pendingAnimalPhoto = null; // {base64, filename}
+
+// ── BOOT ──
+window.addEventListener('load', () => {
+  GH_TOKEN = localStorage.getItem('gh_token') || '';
+  GH_REPO  = localStorage.getItem('gh_repo')  || '';
+  if (GH_TOKEN && GH_REPO) {
+    document.getElementById('setupOverlay').style.display = 'none';
+    boot();
+  }
+});
+
+async function setupGitHub() {
+  const token = document.getElementById('tokenInput').value.trim();
+  const repo  = document.getElementById('repoInput').value.trim();
+  if (!token || !repo) { showSetupErr('Vyplň oba údaje.'); return; }
+  const res = await fetch(`https://api.github.com/repos/${repo}`, {
+    headers: { Authorization: `token ${token}` }
+  });
+  if (!res.ok) { showSetupErr('Neplatný token nebo repozitář. Zkontroluj oprávnění (repo).'); return; }
+  GH_TOKEN = token; GH_REPO = repo;
+  localStorage.setItem('gh_token', token);
+  localStorage.setItem('gh_repo', repo);
+  document.getElementById('setupOverlay').style.display = 'none';
+  boot();
+}
+
+function showSetupErr(msg) {
+  const el = document.getElementById('setupError');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+function logout() {
+  localStorage.removeItem('gh_token');
+  localStorage.removeItem('gh_repo');
+  location.reload();
+}
+
+async function boot() {
+  document.getElementById('settings_repo').value  = GH_REPO;
+  document.getElementById('settings_token').value = GH_TOKEN;
+  const [owner, repoName] = GH_REPO.split('/');
+  document.getElementById('kioskUrlInfo').innerHTML =
+    `<strong>URL kiosku:</strong> https://${owner}.github.io/${repoName}`;
+
+  const loader = document.getElementById('mainLoading');
+  loader.style.display = 'flex';
+  await loadAllData();
+  loader.style.display = 'none';
+}
+
+// ── GITHUB API HELPERS ──
+async function ghFetch(path, opts = {}) {
+  return fetch(`https://api.github.com/repos/${GH_REPO}/contents/${path}`, {
+    ...opts,
+    headers: { Authorization: `token ${GH_TOKEN}`, 'Content-Type': 'application/json', ...(opts.headers || {}) }
+  });
+}
+
+async function getFile(path) {
+  const res = await ghFetch(path);
+  if (!res.ok) return null;
+  const data = await res.json();
+  return { sha: data.sha, content: decodeURIComponent(escape(atob(data.content.replace(/\n/g,'')))) };
+}
+
+async function putFile(path, content, message, sha) {
+  const res = await ghFetch(path, {
+    method: 'PUT',
+    body: JSON.stringify({ message, content: btoa(unescape(encodeURIComponent(content))), branch: GH_BRANCH, ...(sha ? {sha} : {}) })
+  });
+  return res.ok;
+}
+
+async function putBinary(path, base64, message, sha) {
+  const res = await ghFetch(path, {
+    method: 'PUT',
+    body: JSON.stringify({ message, content: base64, branch: GH_BRANCH, ...(sha ? {sha} : {}) })
+  });
+  return res.ok;
+}
+
+async function getSha(path) {
+  const f = await getFile(path);
+  return f ? f.sha : null;
+}
+
+// ── LOAD DATA ──
+async function loadAllData() {
+  await Promise.all([loadHomepage(), loadUtes(), loadBeleni(), loadAnimals()]);
+}
+
+async function loadHomepage() {
+  const f = await getFile('index.html');
+  if (!f) return;
+  document.getElementById('hero_tag_cs').value  = extractAttr(f.content, 'hero-tag', 'cs');
+  document.getElementById('hero_tag_en').value  = extractAttr(f.content, 'hero-tag', 'en');
+  document.getElementById('hero_desc_cs').value = extractInner(f.content, 'hero-sub', 'cs');
+  document.getElementById('hero_desc_en').value = extractInner(f.content, 'hero-sub', 'en');
+}
+
+async function loadUtes() {
+  const f = await getFile('utes.html');
+  if (!f) return;
+  document.getElementById('utes_perex_cs').value = extractInner(f.content, 'article-perex', 'cs');
+  document.getElementById('utes_perex_en').value = extractInner(f.content, 'article-perex', 'en');
+}
+
+async function loadBeleni() {
+  const f = await getFile('beleni.html');
+  if (!f) return;
+  const m = f.content.match(/embed\/([a-zA-Z0-9_-]+)\?/);
+  if (m) document.getElementById('youtube_id').value = m[1];
+}
+
+async function loadAnimals() {
+  const f = await getFile('zivocichove.html');
+  if (!f) return;
+  const m = f.content.match(/const animals = (\[[\s\S]*?\]);/);
+  if (m) { try { animals = JSON.parse(m[1]); } catch(e) { animals = []; } }
+  renderAnimals();
+}
+
+// ── HTML EXTRACTION ──
+function extractAttr(html, cls, lang) {
+  const re = new RegExp(`class="${cls}"[^>]*data-cs="([^"]*)"[^>]*data-en="([^"]*)"`, 'i');
+  const m = html.match(re);
+  if (m) return lang === 'cs' ? m[1] : m[2];
+  const re2 = new RegExp(`class="${cls}"[^>]*data-en="([^"]*)"[^>]*data-cs="([^"]*)"`, 'i');
+  const m2 = html.match(re2);
+  if (m2) return lang === 'cs' ? m2[2] : m2[1];
+  return '';
+}
+
+function extractInner(html, cls, lang) {
+  // Try data-cs / data-en attributes first
+  const val = extractAttr(html, cls, lang);
+  if (val) return val;
+  return '';
+}
+
+function escH(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function injectAttr(html, cls, cs, en) {
+  // Update data-cs and data-en
+  return html
+    .replace(
+      new RegExp(`(class="${cls}"[^>]*data-cs=")[^"]*(")`,'i'),
+      `$1${escH(cs)}$2`
+    )
+    .replace(
+      new RegExp(`(class="${cls}"[^>]*data-en=")[^"]*(")`,'i'),
+      `$1${escH(en)}$2`
+    )
+    // Update inner text (CS default)
+    .replace(
+      new RegExp(`(class="${cls}"[^>]*>)[^<]*`,'i'),
+      `$1${escH(cs)}`
+    );
+}
+
+// ── SAVE FUNCTIONS ──
+async function saveHomepage() {
+  setStat('saving');
+  const f = await getFile('index.html');
+  if (!f) { setStat('error'); return; }
+  let html = injectAttr(f.content, 'hero-tag', document.getElementById('hero_tag_cs').value, document.getElementById('hero_tag_en').value);
+  html = injectAttr(html, 'hero-sub', document.getElementById('hero_desc_cs').value, document.getElementById('hero_desc_en').value);
+  const ok = await putFile('index.html', html, 'Admin: aktualizace homepage', f.sha);
+  setStat(ok ? 'saved' : 'error');
+  toast(ok ? 'Homepage uložena ✓' : 'Chyba při ukládání', !ok);
+}
+
+async function saveUtes() {
+  setStat('saving');
+  const f = await getFile('utes.html');
+  if (!f) { setStat('error'); return; }
+  const html = injectAttr(f.content, 'article-perex', document.getElementById('utes_perex_cs').value, document.getElementById('utes_perex_en').value);
+  const ok = await putFile('utes.html', html, 'Admin: aktualizace článku Útes', f.sha);
+  setStat(ok ? 'saved' : 'error');
+  toast(ok ? 'Článek uložen ✓' : 'Chyba při ukládání', !ok);
+}
+
+async function saveBeleni() {
+  const ytId = document.getElementById('youtube_id').value.trim();
+  if (!ytId) { toast('Zadej YouTube ID', true); return; }
+  setStat('saving');
+  const f = await getFile('beleni.html');
+  if (!f) { setStat('error'); return; }
+  const html = f.content.replace(
+    /embed\/[a-zA-Z0-9_-]+\?[^"]*/,
+    `embed/${ytId}?autoplay=1&mute=1&cc_load_policy=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&loop=1&playlist=${ytId}`
+  );
+  const ok = await putFile('beleni.html', html, 'Admin: aktualizace YouTube videa', f.sha);
+  setStat(ok ? 'saved' : 'error');
+  toast(ok ? 'Video uloženo ✓' : 'Chyba při ukládání', !ok);
+}
+
+// ── PHOTO UPLOAD ──
+async function uploadPhoto(input, path, previewId, progressId) {
+  const file = input.files[0];
+  if (!file) return;
+  const prog = document.getElementById(progressId);
+  prog.style.display = 'block';
+  setStat('saving');
+  const b64 = await toBase64(file);
+  const sha = await getSha(path);
+  const ok = await putBinary(path, b64, `Admin: fotka ${path}`, sha);
+  prog.style.display = 'none';
+  if (ok) {
+    const prev = document.getElementById(previewId);
+    prev.querySelector('img').src = `data:image/jpeg;base64,${b64}`;
+    prev.style.display = 'block';
+    setStat('saved');
+    toast('Fotka nahrána ✓');
+  } else {
+    setStat('error');
+    toast('Chyba při nahrávání fotky', true);
+  }
+}
+
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ── ANIMALS ──
+function renderAnimals() {
+  const list = document.getElementById('animalsList');
+  if (!animals.length) {
+    list.innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:14px;padding:8px 0">Žádní živočichové. Přidej prvního.</div>';
+    return;
+  }
+  list.innerHTML = animals.map((a, i) => `
+    <div class="animal-row">
+      <div class="animal-thumb">
+        ${a.img
+          ? `<img src="https://raw.githubusercontent.com/${GH_REPO}/${GH_BRANCH}/${a.img}?t=${Date.now()}" onerror="this.parentElement.textContent='🐠'">`
+          : '🐠'}
+      </div>
+      <div class="animal-info">
+        <div class="animal-name">${escH(a.cs)}</div>
+        <div class="animal-la">${escH(a.la)}</div>
+      </div>
+      <div class="animal-actions">
+        <button class="btn-icon" onclick="openAnimalForm(${i})" title="Upravit">✏️</button>
+        <button class="btn-icon danger" onclick="deleteAnimal(${i})" title="Smazat">🗑</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openAnimalForm(idx) {
+  editingAnimalIdx = idx;
+  pendingAnimalPhoto = null;
+  document.getElementById('animalFormTitle').textContent = idx === -1 ? 'Nový živočich' : 'Upravit živočicha';
+  const a = idx >= 0 ? animals[idx] : {};
+  document.getElementById('animal_cs').value       = a.cs       || '';
+  document.getElementById('animal_en').value       = a.en       || '';
+  document.getElementById('animal_la').value       = a.la       || '';
+  document.getElementById('animal_desc_cs').value  = a.desc_cs  || '';
+  document.getElementById('animal_desc_en').value  = a.desc_en  || '';
+  document.getElementById('animal_tag_cs').value   = a.tag_cs   || 'Velký bariérový útes';
+  document.getElementById('animal_tag_en').value   = a.tag_en   || 'Great Barrier Reef';
+  const prev = document.getElementById('animalPhotoPreview');
+  if (a.img) {
+    prev.querySelector('img').src = `https://raw.githubusercontent.com/${GH_REPO}/${GH_BRANCH}/${a.img}`;
+    prev.style.display = 'block';
+  } else {
+    prev.style.display = 'none';
+  }
+  const form = document.getElementById('animalEditForm');
+  form.style.display = 'block';
+  form.scrollIntoView({ behavior: 'smooth' });
+}
+
+function closeAnimalForm() {
+  document.getElementById('animalEditForm').style.display = 'none';
+  pendingAnimalPhoto = null;
+}
+
+function prepareAnimalPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const prev = document.getElementById('animalPhotoPreview');
+    prev.querySelector('img').src = e.target.result;
+    prev.style.display = 'block';
+    pendingAnimalPhoto = { base64: e.target.result.split(',')[1], filename: `images/zivoc_${Date.now()}.jpg` };
+  };
+  reader.readAsDataURL(file);
+}
+
+async function saveAnimal() {
+  const cs = document.getElementById('animal_cs').value.trim();
+  if (!cs) { toast('Vyplň název živočicha', true); return; }
+  setStat('saving');
+
+  let imgPath = editingAnimalIdx >= 0 ? (animals[editingAnimalIdx].img || null) : null;
+
+  if (pendingAnimalPhoto) {
+    const prog = document.getElementById('animalPhotoProgress');
+    prog.style.display = 'block';
+    const sha = await getSha(pendingAnimalPhoto.filename);
+    const ok = await putBinary(pendingAnimalPhoto.filename, pendingAnimalPhoto.base64, `Admin: foto ${cs}`, sha);
+    prog.style.display = 'none';
+    if (ok) imgPath = pendingAnimalPhoto.filename;
   }
 
-  function previewPhoto(input, previewId) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const preview = document.getElementById(previewId);
-      preview.querySelector('img').src = e.target.result;
-      preview.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-  }
+  const animal = {
+    cs, en: document.getElementById('animal_en').value.trim(),
+    la: document.getElementById('animal_la').value.trim(),
+    tag_cs: document.getElementById('animal_tag_cs').value.trim(),
+    tag_en: document.getElementById('animal_tag_en').value.trim(),
+    desc_cs: document.getElementById('animal_desc_cs').value.trim(),
+    desc_en: document.getElementById('animal_desc_en').value.trim(),
+    img: imgPath,
+    map: 'images/mapa_rozsireni.svg'
+  };
 
-  function saveSection(section) {
-    showToast('Změny uloženy ✓');
-  }
+  if (editingAnimalIdx >= 0) animals[editingAnimalIdx] = animal;
+  else animals.push(animal);
 
-  function saveYoutube() {
-    const id = document.getElementById('youtube_id').value.trim();
-    if (!id) { showToast('Zadejte YouTube ID', true); return; }
-    showToast('Video ID uloženo: ' + id + ' ✓');
-  }
+  await writeAnimals();
+  renderAnimals();
+  closeAnimalForm();
+}
 
-  function previewYoutube() {
-    const id = document.getElementById('youtube_id').value.trim();
-    if (!id) { showToast('Zadejte YouTube ID', true); return; }
-    window.open('https://www.youtube.com/watch?v=' + id, '_blank');
-  }
+async function deleteAnimal(idx) {
+  if (!confirm(`Smazat živočicha "${animals[idx].cs}"?`)) return;
+  animals.splice(idx, 1);
+  await writeAnimals();
+  renderAnimals();
+}
 
-  function addAnimal() {
-    document.getElementById('animalEditForm').style.display = 'block';
-    document.getElementById('animalEditForm').scrollIntoView({ behavior: 'smooth' });
-  }
+async function writeAnimals() {
+  const f = await getFile('zivocichove.html');
+  if (!f) { setStat('error'); return; }
 
-  function saveAnimal() {
-    const cs = document.getElementById('animal_cs').value;
-    if (!cs) { showToast('Zadejte název živočicha', true); return; }
-    showToast('Živočich uložen ✓');
-    document.getElementById('animalEditForm').style.display = 'none';
-  }
+  let html = f.content;
 
-  function showToast(msg, error) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.style.borderColor = error ? 'rgba(220,60,60,0.4)' : 'rgba(0,160,227,0.4)';
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
+  // Nahraď pole animals
+  html = html.replace(/const animals = \[[\s\S]*?\];/, `const animals = ${JSON.stringify(animals, null, 2)};`);
+
+  // Nahraď total
+  html = html.replace(/const total = \d+;/, `const total = ${animals.length};`);
+
+  // Nahraď sidebar
+  const sidebarItems = animals.map((a, i) => `
+    <div class="animal-item${i===0?' active':''}" onclick="selectAnimal(${i})">
+      <div class="animal-thumb">${a.img ? `<img src="${a.img}" alt="${escH(a.cs)}">` : '🐠'}</div>
+      <div class="animal-names">
+        <div class="animal-cs" data-cs="${escH(a.cs)}" data-en="${escH(a.en)}">${escH(a.cs)}</div>
+        <div class="animal-la">${escH(a.la)}</div>
+      </div>
+      <div class="animal-active-dot"></div>
+    </div>`).join('');
+
+  html = html.replace(
+    /(<div class="sidebar-header"[^>]*>[^<]*<\/div>)([\s\S]*?)(<\/nav>)/,
+    `$1\n${sidebarItems}\n  $3`
+  );
+
+  const ok = await putFile('zivocichove.html', html, 'Admin: aktualizace živočichů', f.sha);
+  setStat(ok ? 'saved' : 'error');
+  toast(ok ? 'Živočichové uloženi ✓' : 'Chyba při ukládání', !ok);
+}
+
+// ── UI HELPERS ──
+function showPanel(name, el) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function setStat(s) {
+  const el = document.getElementById('saveStatus');
+  el.className = 'save-status ' + s;
+  el.textContent = s === 'saving' ? 'Ukládám...' : s === 'saved' ? '✓ Uloženo' : s === 'error' ? '✗ Chyba' : '';
+  if (s === 'saved') setTimeout(() => { el.textContent = ''; el.className = 'save-status'; }, 3000);
+}
+
+function toast(msg, err) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (err ? ' error' : '');
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+function previewYoutube() {
+  const id = document.getElementById('youtube_id').value.trim();
+  if (!id) { toast('Zadej YouTube ID', true); return; }
+  window.open(`https://www.youtube.com/watch?v=${id}`, '_blank');
+}
 </script>
 
 </body>
