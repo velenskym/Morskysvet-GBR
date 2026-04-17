@@ -319,6 +319,14 @@ f<!DOCTYPE html>
       </div>
       <div class="animal-active-dot"></div>
     </div>
+    <div class="animal-item" onclick="selectAnimal(3)">
+      <div class="animal-thumb"><img src="images/zivoc_1776416408807.jpg" alt="Dírkovník"></div>
+      <div class="animal-names">
+        <div class="animal-cs" data-cs="Dírkovník" data-en="Flowerpot Coral">Dírkovník</div>
+        <div class="animal-la">Goniopora sp.</div>
+      </div>
+      <div class="animal-active-dot"></div>
+    </div>
   </nav>
 
   <!-- DETAIL -->
@@ -361,7 +369,7 @@ f<!DOCTYPE html>
 <script>
   let currentLang = 'cs';
   let currentIndex = 0;
-  const total = 3;
+  const total = 4;
 
   // --- Data živočichů — doplnit po probrání druhů ---
   const animals = [
@@ -396,6 +404,17 @@ f<!DOCTYPE html>
     "desc_cs": "Běžná ježovka v Indickém oceánu a Rudém moři. Její ostny obsahují jed, který však není příliš silný. Nicméně ostny samotné jsou velmi ostré a často se v ráně zlomí, takže jdou jen velmi špatně vyndat.\nPoměrně zajímavé je, že tato ježovka poměrně dobře „vidí“ – natáčí své ostny proti rybám, které plavou kolem. Jak – to zatím přesně nevíme.\nVyskytuje se na korálových útesech, písčitém dně a mořských loukách. Spásá různé druhy řas.",
     "desc_en": "",
     "img": "images/zivoc_1776415355195.jpg",
+    "map": "images/mapa_rozsireni.svg"
+  },
+  {
+    "cs": "Dírkovník",
+    "en": "Flowerpot Coral",
+    "la": "Goniopora sp.",
+    "tag_cs": "Velký bariérový útes",
+    "tag_en": "Great Barrier Reef",
+    "desc_cs": "Koráli rodů Goniopora a Alveopora jsou si velmi podobní, mají dokonce i stejný český název. Polypy Goniopor mají ale 24 ramen, většinou zakončených špičkou. S Alveoporami kupodivu nejsou v blízkém příbuzenském vztahu, patří do čeledi poritidae.\nPři chovu v akváriu vyžadují dokrmování velmi drobnou potravou nebo aminokyselinami.",
+    "desc_en": "",
+    "img": "images/zivoc_1776416408807.jpg",
     "map": "images/mapa_rozsireni.svg"
   }
 ];
