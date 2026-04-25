@@ -351,6 +351,14 @@ f<!DOCTYPE html>
       </div>
       <div class="animal-active-dot"></div>
     </div>
+    <div class="animal-item" onclick="selectAnimal(7)">
+      <div class="animal-thumb"><img src="images/zivoc_1777109304576.jpg" alt="Pomčík perlošupinný"></div>
+      <div class="animal-names">
+        <div class="animal-cs" data-cs="Pomčík perlošupinný" data-en="Pearlscale angelfish">Pomčík perlošupinný</div>
+        <div class="animal-la">Centropyge vrolikii</div>
+      </div>
+      <div class="animal-active-dot"></div>
+    </div>
   </nav>
 
   <!-- DETAIL -->
@@ -393,7 +401,7 @@ f<!DOCTYPE html>
 <script>
   let currentLang = 'cs';
   let currentIndex = 0;
-  const total = 7;
+  const total = 8;
 
   // --- Data živočichů — doplnit po probrání druhů ---
   const animals = [
@@ -472,6 +480,17 @@ f<!DOCTYPE html>
     "desc_cs": "Tmavé, téměř černé tělo s výraznou bílou skvrnou na tváři a bílým lemem na ocasní ploutvi. Někdy bývá zaměňován s příbuzným Acanthurus japonicus, který má podobné zbarvení, ale jinak tvarovanou bílou skvrnu.\n\nObývá mělké korálové útesy a laguny v centrálním a východním Indo-Pacifiku, kde spásá řasy ze skalního i korálového substrátu. Je to teritoriální druh, který si houževnatě brání svůj potravní okrsek.\n\nOcasní trn je u tohoto druhu obzvláště výrazný – při obraně ho aktivně používá charakteristickým bočním pohybem ocasu.",
     "desc_en": "",
     "img": "images/zivoc_1777109252053.jpg",
+    "map": "images/mapa_rozsireni.svg"
+  },
+  {
+    "cs": "Pomčík perlošupinný",
+    "en": "Pearlscale angelfish",
+    "la": "Centropyge vrolikii",
+    "tag_cs": "",
+    "tag_en": "",
+    "desc_cs": "Přední část těla je krémově bílá s jemnými tmavými šupinami připomínajícími perleťový vzor. Zadní polovina přechází do sytě tmavé, téměř černé. Tato dvoubarevná kombinace ho řadí k nejsnáze rozeznatelným pomčíkům.\n\nObývá korálové útesy Oceánie a centrálního Indo-Pacifiku, kde jako převážně býložravý druh celý den obrušuje řasový biofilm ze skal a korálů. Je to teritoriální druh, samci spravují harémové skupiny samic.\n\nPřirozeně se kříží s příbuznými druhy, zejména s Centropyge flavissima – hybridní jedinci jsou v přírodě i v akváriích dobře zdokumentováni a bývají velmi atraktivně zbarveni.",
+    "desc_en": "",
+    "img": "images/zivoc_1777109304576.jpg",
     "map": "images/mapa_rozsireni.svg"
   }
 ];
