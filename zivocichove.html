@@ -327,6 +327,14 @@ f<!DOCTYPE html>
       </div>
       <div class="animal-active-dot"></div>
     </div>
+    <div class="animal-item" onclick="selectAnimal(4)">
+      <div class="animal-thumb"><img src="images/zivoc_1777109107246.jpg" alt="Bodlok bahamský"></div>
+      <div class="animal-names">
+        <div class="animal-cs" data-cs="Bodlok bahamský" data-en="Black-spot surgeonfish">Bodlok bahamský</div>
+        <div class="animal-la">Acanthurus bariene</div>
+      </div>
+      <div class="animal-active-dot"></div>
+    </div>
   </nav>
 
   <!-- DETAIL -->
@@ -369,7 +377,7 @@ f<!DOCTYPE html>
 <script>
   let currentLang = 'cs';
   let currentIndex = 0;
-  const total = 4;
+  const total = 5;
 
   // --- Data živočichů — doplnit po probrání druhů ---
   const animals = [
@@ -415,6 +423,17 @@ f<!DOCTYPE html>
     "desc_cs": "Koráli rodů Goniopora a Alveopora jsou si velmi podobní, mají dokonce i stejný český název. Polypy Goniopor mají ale 24 ramen, většinou zakončených špičkou. S Alveoporami kupodivu nejsou v blízkém příbuzenském vztahu, patří do čeledi poritidae.\nPři chovu v akváriu vyžadují dokrmování velmi drobnou potravou nebo aminokyselinami.",
     "desc_en": "",
     "img": "images/zivoc_1776416408807.jpg",
+    "map": "images/mapa_rozsireni.svg"
+  },
+  {
+    "cs": "Bodlok bahamský",
+    "en": "Black-spot surgeonfish",
+    "la": "Acanthurus bariene",
+    "tag_cs": "",
+    "tag_en": "",
+    "desc_cs": "Olivově hnědý bodlok s charakteristickou černou skvrnou za okem. Dospělci mají žlutý kroužek kolem oka a světlý okraj na ocasní ploutvi.\n\nObývá vnější útesové svahy a korálová stanoviště v Indickém oceánu a přilehlých částech Pacifiku, kde spásá řasy ze skalního povrchu. Je to spíše samotářský druh, který se příliš neseskupuje do hejn.\n\nStejně jako ostatní bodloci nese u báze ocasu ostrý trn, který slouží k obraně při střetech s predátory i rivaly.",
+    "desc_en": "",
+    "img": "images/zivoc_1777109107246.jpg",
     "map": "images/mapa_rozsireni.svg"
   }
 ];
