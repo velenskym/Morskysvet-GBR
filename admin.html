@@ -669,8 +669,8 @@ function renderAnimals() {
   list.innerHTML = animals.map((a, i) => `
     <div class="animal-row">
       <div class="animal-thumb">
-        ${a.img
-          ? `<img src="https://raw.githubusercontent.com/${GH_REPO}/${GH_BRANCH}/${a.img}?t=${Date.now()}" onerror="this.parentElement.textContent='🐠'">`
+        ${(a.thumb || a.img)
+          ? `<img src="https://raw.githubusercontent.com/${GH_REPO}/${GH_BRANCH}/${a.thumb || a.img}?t=${Date.now()}" onerror="this.parentElement.textContent='🐠'">`
           : '🐠'}
       </div>
       <div class="animal-info">
@@ -722,7 +722,29 @@ function prepareAnimalPhoto(input) {
     const prev = document.getElementById('animalPhotoPreview');
     prev.querySelector('img').src = e.target.result;
     prev.style.display = 'block';
-    pendingAnimalPhoto = { base64: e.target.result.split(',')[1], filename: `images/zivoc_${Date.now()}.jpg` };
+
+    const ts = Date.now();
+    const filename = `images/zivoc_${ts}.jpg`;
+    const thumbFilename = `images/thumb_zivoc_${ts}.jpg`;
+
+    // Vygeneruj thumbnail přes Canvas — 160x120px, contain na tmavém pozadí
+    const img = new Image();
+    img.onload = () => {
+      const THUMB_W = 160, THUMB_H = 120;
+      const canvas = document.createElement('canvas');
+      canvas.width = THUMB_W;
+      canvas.height = THUMB_H;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#00325a';
+      ctx.fillRect(0, 0, THUMB_W, THUMB_H);
+      const scale = Math.min(THUMB_W / img.width, THUMB_H / img.height);
+      const drawW = img.width * scale;
+      const drawH = img.height * scale;
+      ctx.drawImage(img, (THUMB_W - drawW) / 2, (THUMB_H - drawH) / 2, drawW, drawH);
+      const thumbBase64 = canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+      pendingAnimalPhoto = { base64: e.target.result.split(',')[1], filename, thumbBase64, thumbFilename };
+    };
+    img.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }
@@ -733,14 +755,25 @@ async function saveAnimal() {
   setStat('saving');
 
   let imgPath = editingAnimalIdx >= 0 ? (animals[editingAnimalIdx].img || null) : null;
+  let thumbPath = editingAnimalIdx >= 0 ? (animals[editingAnimalIdx].thumb || null) : null;
 
   if (pendingAnimalPhoto) {
     const prog = document.getElementById('animalPhotoProgress');
     prog.style.display = 'block';
+
+    // Nahraj velkou fotku
     const sha = await getSha(pendingAnimalPhoto.filename);
     const ok = await putBinary(pendingAnimalPhoto.filename, pendingAnimalPhoto.base64, `Admin: foto ${cs}`, sha);
-    prog.style.display = 'none';
     if (ok) imgPath = pendingAnimalPhoto.filename;
+
+    // Nahraj thumbnail
+    if (pendingAnimalPhoto.thumbBase64) {
+      const thumbSha = await getSha(pendingAnimalPhoto.thumbFilename);
+      const thumbOk = await putBinary(pendingAnimalPhoto.thumbFilename, pendingAnimalPhoto.thumbBase64, `Admin: thumbnail ${cs}`, thumbSha);
+      if (thumbOk) thumbPath = pendingAnimalPhoto.thumbFilename;
+    }
+
+    prog.style.display = 'none';
   }
 
   const animal = {
@@ -751,6 +784,7 @@ async function saveAnimal() {
     desc_cs: document.getElementById('animal_desc_cs').value.trim(),
     desc_en: document.getElementById('animal_desc_en').value.trim(),
     img: imgPath,
+    thumb: thumbPath,
     map: 'images/mapa_rozsireni.svg'
   };
 
@@ -784,7 +818,7 @@ async function writeAnimals() {
   // Nahraď sidebar
   const sidebarItems = animals.map((a, i) => `
     <div class="animal-item${i===0?' active':''}" onclick="selectAnimal(${i})">
-      <div class="animal-thumb">${a.img ? `<img src="${a.img}" alt="${escH(a.cs)}">` : '🐠'}</div>
+      <div class="animal-thumb">${(a.thumb || a.img) ? `<img src="${a.thumb || a.img}" alt="${escH(a.cs)}">` : '🐠'}</div>
       <div class="animal-names">
         <div class="animal-cs" data-cs="${escH(a.cs)}" data-en="${escH(a.en)}">${escH(a.cs)}</div>
         <div class="animal-la">${escH(a.la)}</div>
