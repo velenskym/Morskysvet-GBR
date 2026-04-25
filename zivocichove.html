@@ -171,32 +171,32 @@
       position:absolute; bottom:24px; left:50%;
       transform:translateX(-50%);
       z-index:10;
-      display:flex; align-items:center; gap:0;
-      background:rgba(0,0,0,0.55);
-      backdrop-filter:blur(10px);
-      border:1px solid rgba(255,255,255,0.15);
-      border-radius:999px;
-      overflow:hidden;
+      display:flex; align-items:center; gap:12px;
     }
     .nav-prev, .nav-next {
       display:flex; align-items:center; justify-content:center;
-      width:56px; height:44px;
-      background:transparent;
-      border:none;
+      width:52px; height:52px;
+      border-radius:50%;
+      background:rgba(0,30,60,0.7);
+      backdrop-filter:blur(10px);
+      border:2px solid rgba(0,160,227,0.5);
       cursor:pointer;
-      transition:background 0.2s;
-      font-size:20px; font-weight:700; color:white;
+      transition:transform 0.15s, background 0.15s;
+      font-size:22px; font-weight:700; color:white;
     }
-    .nav-prev:hover, .nav-next:hover { background:rgba(0,160,227,0.3); }
-    .nav-prev:active, .nav-next:active { background:rgba(0,160,227,0.5); }
+    .nav-prev:hover, .nav-next:hover { background:rgba(0,160,227,0.35); }
+    .nav-prev:active, .nav-next:active { transform:scale(1.18); background:rgba(0,160,227,0.55); }
     .nav-counter {
-      padding:0 18px;
+      padding:0 16px;
+      height:52px;
+      display:flex; align-items:center;
       font-size:14px; font-weight:500;
       color:rgba(255,255,255,0.7);
       letter-spacing:0.08em;
-      border-left:1px solid rgba(255,255,255,0.15);
-      border-right:1px solid rgba(255,255,255,0.15);
-      height:44px; display:flex; align-items:center;
+      background:rgba(0,0,0,0.45);
+      backdrop-filter:blur(10px);
+      border:2px solid rgba(255,255,255,0.12);
+      border-radius:999px;
     }
 
     .detail-info {
@@ -520,7 +520,7 @@
         img = document.createElement('img');
         img.className = 'detail-img';
         img.style.cssText = 'width:90%;height:90%;object-fit:contain;display:block;filter:drop-shadow(0 8px 40px rgba(0,160,227,0.15))';
-        photoArea.insertBefore(img, photoArea.querySelector('.nav-prev'));
+        photoArea.insertBefore(img, photoArea.querySelector('.nav-bar'));
       }
       img.src = a.img;
       img.style.display = 'block';
