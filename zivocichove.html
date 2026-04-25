@@ -343,6 +343,14 @@ f<!DOCTYPE html>
       </div>
       <div class="animal-active-dot"></div>
     </div>
+    <div class="animal-item" onclick="selectAnimal(6)">
+      <div class="animal-thumb"><img src="images/zivoc_1777109252053.jpg" alt="Bodlok zlatolemý"></div>
+      <div class="animal-names">
+        <div class="animal-cs" data-cs="Bodlok zlatolemý" data-en="Whitecheek surgeonfish">Bodlok zlatolemý</div>
+        <div class="animal-la">Acanthurus nigricans</div>
+      </div>
+      <div class="animal-active-dot"></div>
+    </div>
   </nav>
 
   <!-- DETAIL -->
@@ -385,7 +393,7 @@ f<!DOCTYPE html>
 <script>
   let currentLang = 'cs';
   let currentIndex = 0;
-  const total = 6;
+  const total = 7;
 
   // --- Data živočichů — doplnit po probrání druhů ---
   const animals = [
@@ -453,6 +461,17 @@ f<!DOCTYPE html>
     "desc_cs": "Tmavě hnědý až šedočerný bodlok s bílým ocasem – dáky této kombinaci je snadno rozpoznatelný. Na rozdíl od většiny svých příbuzných se živí převážně zooplanktonem, nikoli řasami – tráví velkou část dne ve volné vodě nad útesem a filtruje plankton přinášený proudem.\n\nTvoří velká hejna, která se pohybují podél vnějších útesových svahů a ve volném moři, někdy ve společnosti jiných druhů planktonožravých ryb. Obývá celý Indo-Pacifik, od Indického oceánu po Havaj.",
     "desc_en": "",
     "img": "images/zivoc_1777109212727.jpg",
+    "map": "images/mapa_rozsireni.svg"
+  },
+  {
+    "cs": "Bodlok zlatolemý",
+    "en": "Whitecheek surgeonfish",
+    "la": "Acanthurus nigricans",
+    "tag_cs": "",
+    "tag_en": "",
+    "desc_cs": "Tmavé, téměř černé tělo s výraznou bílou skvrnou na tváři a bílým lemem na ocasní ploutvi. Někdy bývá zaměňován s příbuzným Acanthurus japonicus, který má podobné zbarvení, ale jinak tvarovanou bílou skvrnu.\n\nObývá mělké korálové útesy a laguny v centrálním a východním Indo-Pacifiku, kde spásá řasy ze skalního i korálového substrátu. Je to teritoriální druh, který si houževnatě brání svůj potravní okrsek.\n\nOcasní trn je u tohoto druhu obzvláště výrazný – při obraně ho aktivně používá charakteristickým bočním pohybem ocasu.",
+    "desc_en": "",
+    "img": "images/zivoc_1777109252053.jpg",
     "map": "images/mapa_rozsireni.svg"
   }
 ];
