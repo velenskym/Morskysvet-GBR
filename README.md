@@ -1,285 +1,66 @@
-# ZOO Mořský svět · Velký bariérový útes
-### Kiosk aplikace pro interaktivní dotykový displej
+# Great Barrier Reef kiosk — ZOO Sea World Prague
 
-Webová kiosk aplikace pro druhé akvárium ZOO Mořský svět Praha — téma **Velký bariérový útes**. Běží jako fullscreen webová aplikace v Chromiu na dotykové AIO stanici.
+A touchscreen application running beside our Great Barrier Reef tank at ZOO Mořský svět (Sea World Prague), the Czech Republic's only public marine aquarium.
 
----
+**Live:** https://velenskym.github.io/Morskysvet-GBR/
+**Try it in a simulated kiosk screen:** https://velenskym.github.io/morskysvet-euac/
 
-## Náhled
-
-| Homepage | Článek | Živočichové |
-|---|---|---|
-| 3 tematické karty | Scrollovatelný obsah + foto | Sidebar + detail |
+Plain HTML, CSS and JavaScript. No framework, no build step, no server. Hosted free on GitHub Pages, displayed by Chromium in kiosk mode on a small Linux box next to the glass.
 
 ---
 
-## Struktura souborů
+## Pages
 
-```
-/
-├── index.html            ← Homepage (hero + 3 karty)
-├── utes.html             ← Článek: Velký bariérový útes
-├── beleni.html           ← Článek: Bělení korálů (YouTube video)
-├── zivocichove.html      ← Průvodce živočichy nádrže
-├── admin.html            ← Admin panel (správa obsahu)
-├── README.md
-└── images/
-    ├── logo.png              ← Logo ZOO Mořský svět
-    ├── hero.jpg              ← Hero fotografie homepage
-    ├── card_utes.jpg         ← Karta Velký bariérový útes
-    ├── card_beleni.jpg       ← Karta Bělení korálů
-    ├── card_zivocichove.jpg  ← Karta Živočichové
-    ├── utes_hero.jpg         ← Hero foto článku o útesu
-    ├── utes_foto1.jpg        ← Inline foto v článku
-    ├── utes_foto2.jpg        ← Inline foto v článku
-    ├── beleni_hero.jpg       ← Hero foto článku o bělení
-    ├── beleni_foto1.jpg      ← Inline foto v článku
-    ├── zivoc_001.jpg         ← Foto živočicha 1
-    └── mapa_rozsireni.svg    ← Mapa rozšíření živočichů
-```
+| File | What it is |
+|---|---|
+| `index.html` | Home — hero and three cards |
+| `utes.html` | The reef: how it formed, how it works, what threatens it |
+| `beleni.html` | Coral bleaching, with video |
+| `zivocichove.html` | A guide to the animals in the tank — sidebar list, detail panel with photograph, names, facts and distribution map |
+| `admin.html` | Content editor (see below) |
 
----
+Both languages live in the same files: every text node carries `data-cs` and `data-en` attributes and one function swaps them.
 
-## Technický stack
+## The admin panel — this is the interesting part
 
-- **Čisté HTML + CSS + JavaScript** — žádný framework, žádný build systém
-- **Hosting:** GitHub Pages (statické soubory)
-- **Prohlížeč:** Chromium v kiosk módu
-- **OS:** Ubuntu 24.04 LTS
-- **Font:** DM Sans (Google Fonts)
+`admin.html` is a single page that talks to the **GitHub API** directly from the browser. It can edit the home page and article texts in both languages, swap the video, upload photographs, and add, edit or delete animals in the species guide. Saving writes a commit to this repository; the tablet picks the change up on its next page load, roughly a minute later through the GitHub Pages cache.
 
-### Barvy
+It works from a laptop, a phone or the tablet itself — anywhere with an internet connection. Authentication is a GitHub Personal Access Token with `repo` scope, entered once in the interface and kept in the browser's `localStorage`.
 
-```css
---blue:   #00A0E3
---navy:   #004469
---deeper: #00325a
---orange: #EF7F1A
---bg:     #001a2e
-```
+**Why it matters:** the person who knows the animals is the same person who edits the label text, and a wrong fact can be corrected from the exhibition floor in about a minute instead of waiting for a new printed panel. There is no CMS, no licence and no server to maintain.
 
-### Rozlišení a škálování
+**Security note if you reuse this:** the token lives in the browser of whoever uses the panel. Issue a fine-grained token scoped to this repository alone, never commit a token to the repository, and remember that `admin.html` is a public URL — its security rests entirely on the token, not on the URL being secret.
 
-Aplikace je navržena na **1920×1080 px**. Na tabletu (1366×768) se automaticky škáluje:
+## Built for one specific screen
 
-```css
-html {
-  transform-origin: top left;
-  transform: scale(0.7115); /* 1366/1920 */
-  width: 1920px;
-  height: 1080px;
-  overflow: hidden;
-  position: fixed;
-}
-```
+Authored at a fixed 1920×1080 layout and scaled with CSS to the tablet's 1366×768 panel. There is exactly one screen to support, so there is no responsive CSS in the project.
 
-Tento blok je v `<head>` každé stránky.
+The practical consequence: **opening `index.html` on a laptop or a phone will not look right.** To see it as a visitor does, use the [kiosk simulator](https://velenskym.github.io/morskysvet-euac/).
 
----
-
-## Nasazení na GitHub Pages
-
-1. Vytvoř repozitář `Morskysvet-GBR` na GitHubu
-2. Nahraj všechny soubory do rootu repozitáře
-3. V nastavení repozitáře → **Pages** → Source: `main` branch, root `/`
-4. Aplikace bude dostupná na `https://velenskym.github.io/Morskysvet-GBR`
-
-> ⚠️ GitHub Pages je case-sensitive — názvy souborů a složek musí přesně odpovídat referencím v HTML.
-
----
-
-## Kiosk setup — Ubuntu 24.04 LTS
-
-### 1. Autologin
-
-Uprav `/etc/lightdm/lightdm.conf`:
-
-```ini
-[Seat:*]
-autologin-user=koisk
-autologin-user-timeout=0
-user-session=openbox
-```
-
-Uživatel `koisk` musí být ve skupině `nopasswdlogin`:
+## Running it locally
 
 ```bash
-sudo groupadd -f nopasswdlogin
-sudo usermod -aG nopasswdlogin koisk
+git clone https://github.com/velenskym/Morskysvet-GBR.git
+cd Morskysvet-GBR
+python3 -m http.server 8000
 ```
 
-### 2. Openbox autostart
+Then open http://localhost:8000 in a browser window sized to 1366×768 (in Chrome: DevTools → device toolbar → set a custom 1366×768 device).
 
-Soubor `/home/koisk/.config/openbox/autostart`:
+## Reusing this for your own institution
 
-```bash
-unclutter -idle 3 -root &
-xset s off &
-xset -dpms &
-xset s noblank &
-/home/koisk/kiosk-start.sh &
-```
+You are welcome to. The code is MIT-licensed; the photographs, video and texts are not — see [LICENSE](LICENSE).
 
-### 3. Spouštěcí skript
+- **The machine underneath it** — Lubuntu with Openbox, autologin, Chromium kiosk flags, a watchdog and automatic power-off at closing time — is documented in [KIOSK-SETUP.md](https://github.com/velenskym/morskysvet-euac/blob/main/KIOSK-SETUP.md).
+- The three sister applications: [jellyfish](https://github.com/velenskym/Morskysvet-meduzy), [octopus](https://github.com/velenskym/Morskysvet-chobotnice), [Raja Ampat](https://github.com/velenskym/Morskysvet-kiosk).
 
-Soubor `/home/koisk/kiosk-start.sh`:
+## Known gaps
 
-```bash
-#!/bin/bash
-KIOSK_URL="https://velenskym.github.io/Morskysvet-GBR"
-sleep 5
-rm -f /home/koisk/.config/chromium/SingletonLock 2>/dev/null || true
-find /home/koisk/.config/chromium -name "*.lock" -delete 2>/dev/null || true
-exec /snap/bin/chromium \
-  --kiosk \
-  --noerrdialogs \
-  --disable-infobars \
-  --disable-session-crashed-bubble \
-  --disable-restore-session-state \
-  --no-first-run \
-  --disable-pinch \
-  --overscroll-history-navigation=0 \
-  --disable-features=TranslateUI \
-  --disable-translate \
-  --check-for-update-interval=31536000 \
-  "$KIOSK_URL"
-```
+The species guide still needs complete data and photographs for every animal in the tank.
 
-```bash
-chmod +x /home/koisk/kiosk-start.sh
-```
+## Contact
 
-### 4. Watchdog (systemd)
+Mikuláš Velenský — Curator, ZOO Sea World Prague
+velenskym@gmail.com · [morskysvet.cz](https://www.morskysvet.cz) · [github.com/velenskym](https://github.com/velenskym)
 
-Soubor `/etc/systemd/system/kiosk-watchdog.service`:
-
-```ini
-[Unit]
-Description=Kiosk Chromium Watchdog
-After=graphical.target
-
-[Service]
-User=koisk
-Environment=DISPLAY=:0
-Restart=always
-RestartSec=10
-ExecStart=/bin/bash -c 'while true; do pgrep -x chromium || /home/koisk/kiosk-start.sh; sleep 15; done'
-
-[Install]
-WantedBy=graphical.target
-```
-
-```bash
-sudo systemctl enable kiosk-watchdog
-sudo systemctl start kiosk-watchdog
-```
-
----
-
-## Správa obsahu
-
-### Admin panel
-
-Otevři `admin.html` v prohlížeči (PC, tablet, mobil). Panel umožňuje:
-
-- Editaci textů článků (CS + EN)
-- Nahrání fotek s náhledem
-- Správu živočichů (přidat / upravit / smazat)
-- Nastavení YouTube videa
-
-> Admin panel je zatím standalone — změny se ukládají pouze lokálně (v paměti prohlížeče). Pro trvalé ukládání je potřeba napojit na backend (viz plánované funkce).
-
-### Přidání / změna videa (YouTube)
-
-V souboru `beleni.html` najdi tento blok a nahraď `VIDEO_ID` identifikátorem YouTube videa:
-
-```html
-<iframe
-  src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1&cc_load_policy=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&loop=1&playlist=VIDEO_ID"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen>
-</iframe>
-```
-
-YouTube ID najdeš v URL videa za `watch?v=` — např. `https://youtu.be/DRsUWSgad2s` → ID je `DRsUWSgad2s`.
-
-Parametry embeddovaného videa:
-
-| Parametr | Hodnota | Popis |
-|---|---|---|
-| `autoplay` | `1` | Automatické spuštění |
-| `mute` | `1` | Bez zvuku (nutné pro autoplay) |
-| `cc_load_policy` | `0` | Bez titulků |
-| `rel` | `0` | Bez doporučených videí |
-| `modestbranding` | `1` | Minimální YouTube branding |
-| `loop` | `1` | Opakování |
-
-> ⚠️ Tablet musí mít připojení k internetu — video se streamuje z YouTube.
-
-### Přidání živočicha
-
-V souboru `zivocichove.html` najdi pole `animals` v JavaScriptu a přidej nový objekt:
-
-```javascript
-{
-  cs: 'Název česky',
-  en: 'English name',
-  la: 'Genus species',
-  tag_cs: 'Velký bariérový útes',
-  tag_en: 'Great Barrier Reef',
-  desc_cs: 'Popis živočicha česky...',
-  desc_en: 'Animal description in English...',
-  img: 'images/zivoc_XXX.jpg',
-  map: 'images/mapa_rozsireni.svg'
-}
-```
-
-Zároveň přidej odpovídající položku do `<nav class="sidebar">` v HTML a aktualizuj hodnotu `const total`.
-
-### Přidání fotky
-
-1. Optimalizuj fotografii (JPEG, kvalita 80–85, max 1200px na delší straně)
-2. Pojmenuj ji bez diakritiky a mezer (např. `utes_foto3.jpg`)
-3. Nahraj do složky `images/`
-4. Referencuj v HTML jako `src="images/utes_foto3.jpg"`
-
----
-
-## Dvoujazyčnost (CS / EN)
-
-Každý textový element má atributy `data-cs` a `data-en`. Přepínání jazyků funguje automaticky přes tlačítka CS / EN v headeru.
-
-```html
-<div data-cs="Korálový útes" data-en="Coral Reef">Korálový útes</div>
-```
-
-Při přidávání nového textu vždy vyplň oba atributy.
-
----
-
-## Auto-reset po nečinnosti
-
-Na všech podstránkách (ne na `index.html`) se po **60 sekundách** nečinnosti aplikace automaticky vrátí na homepage. Timeout je nastaven v každé podstránce:
-
-```javascript
-var TIMEOUT = 60 * 1000; // 1 minuta
-```
-
----
-
-## Plánované funkce
-
-- [ ] Živočichové — doplnit reálná data a fotky pro všechny druhy nádrže
-- [ ] Admin panel napojit na backend (Supabase) pro trvalé ukládání a správu z jednoho místa
-- [ ] Statistiky návštěvnosti — sběr dat o interakcích na všech tabletech
-- [ ] Centrální správa obsahu pro více kiosků najednou
-
----
-
-## Souvisejicí projekty
-
-- [Morskysvet-kiosk](https://github.com/velenskym/Morskysvet-kiosk) — první akvárium (Raja Ampat)
-
----
-
-*ZOO Mořský svět Praha · [www.morskysvet.cz](https://www.morskysvet.cz)*
+Shared with the EUAC community. If you build something from this, I would like to hear about it.
